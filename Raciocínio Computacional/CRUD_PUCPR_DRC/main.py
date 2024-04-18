@@ -1,7 +1,7 @@
 '''
    Raciocínio Computacional
    CRUD - PUC-PR
-   ATIVIDADE SOMATIVA 1 - Semana 4
+   ATIVIDADE FORMATIVA - Semana 5
    
    @Curso: Análise e Desenvolvimento de Sistemas
    @Autor: Matheus Vinicyus Strada
@@ -57,6 +57,90 @@ def menu_CRUD(opcao):
     return leitura_opcao_menu()
 
 
+# Operação 1 - Incluir
+def incluir(lista):
+    dicionario = {}
+    # Tratamento de erro.
+    try:
+        # Leitura do código!
+        codigo = int(input("Código: "))
+        
+        # Leitura do nome!
+        nome = input(f"Nome: ")
+        # Criação de um exceção/erro (Nome muito curto/inválido)!
+        if len(nome) < 3:
+            raise Exception("Nome inválido")
+        
+        # Leitura do CPF
+        cpf = input("CPF: ")
+
+    # Caso de Erro
+    except:
+        mensagem_erro()
+    # Caso de sucesso!
+    else:
+        dicionario["codigo"] = codigo
+        dicionario["nome"] = nome
+        dicionario["cpf"] = cpf
+
+        lista.append(dicionario)
+        return "{:^35}".format("Cadastrado com sucesso!")
+
+
+# Operação 2 - Listar
+def listar(lista):
+    # Verificar se a algum dado na lista.
+    if len(lista) == 0:
+        print("{:^35}".format("Não há cadastrado."))
+        print("{:^35}".format("Acesse a opção de 'Incluir'"))
+    else:
+        # Listar os dados cadastradados!
+        for dicionario in lista:
+            print("{:^35}".format(f"Código: {dicionario['codigo']}"))
+            print("{:^35}".format(f"Nome: {dicionario['nome']}"))
+            print("{:^35}".format(f"CPF: {dicionario['cpf']}"))
+            print("-"*35)
+        input("Pressione enter para continuar!")
+
+
+# Operação 3 - Excluir
+def remover(lista):
+    # Tratamento de erro, para a leitura do código!
+    try:
+        codigo_remocao = int(input("Informe o código: "))
+    except:
+        print("{:^35}".format("Você não informou um número ou código válido!"))
+    else:
+        # Variavel auxiliar para remoção dos dados na lista.
+        variavel_aux_remocao = None
+        # Percorrer a lista para verificar se o código digitado esta cadastrado
+        for dicionario in lista:
+            if dicionario["codigo"] == codigo_remocao:
+                variavel_aux_remocao = dicionario
+                break
+        # Retorno se o dado foi ou não removido.
+        if variavel_aux_remocao == None:
+            return False
+        else:
+            lista.remove(variavel_aux_remocao)
+            return True
+
+
+# Operação 4 - Alterar
+def alterar(lista):
+    # Variavel auxiliar, serve para verificar se o código existe.
+    verificar = remover(lista)
+
+    # Caso o código exista.
+    if verificar:
+        print("{:^35}".format("Informe os dados para a atualização!"))
+        incluir(lista)
+        print("{:^35}".format("Atualização realizada com Sucesso!"))
+    # Caso o código não está cadastrado.
+    else:
+        print("{:^35}".format("Verifique o código para edição"))
+
+
 # Mensagem para as opções em desenvolvimento.
 def mensagem_opcao_desenvolvimento(opcao):
     print("-"*35)
@@ -100,7 +184,11 @@ def mensagem_finalizar():
 # Função principal do sistema.
 def main():
     # Inicialização das variáveis.
-    estudantes = []
+    lista_estudantes = [
+        {"codigo": 1, "nome": "Lucas", "cpf": "999"}, 
+        {"codigo": 2, "nome": "Pedro", "cpf": "555"}
+    ]
+
     while True:
         # Apresentação e leitura do menu inicial.
         opcao_menu_inicial = menu_inicial()        
@@ -125,53 +213,37 @@ def main():
                 # Apresentação e leitura do menu do CRUD.
                 opcao_crud = menu_CRUD(escola_opcao)
 
-                # Opções ativas do menu do CRUD
-                if opcao_crud in (1, 2, 5):
-                    # Opção de Incluir.
-                    if opcao_crud == 1:
-                        crud = "Incluir"
-                        mensagem_operacao_realizada(crud)
-                        # Tratamento de erro.
-                        try:
-                            # Leitura do nome!
-                            nome = input(f"Informe o nome do estudante: ")
-                            # Criação de um exceção/erro (Nome muito curto/inválido)!
-                            if len(nome) < 3:
-                                raise Exception("Nome inválido")
-                        # Caso de Erro
-                        except Exception as erro:
-                            print("{:^35}".format(erro[0]))
-                            mensagem_erro()
-                        # Caso de sucesso!
-                        else:
-                            estudantes.append(nome)
-                            print("{:^35}".format("Estudante cadastrado com sucesso!"))
+                # Opção de Incluir.
+                if opcao_crud == 1:
+                    crud = "Incluir"
+                    mensagem_operacao_realizada(crud)
+                    incluir(lista_estudantes)
 
-                    # Opção de Listar
-                    elif opcao_crud == 2:
-                        crud = "Listar"
-                        mensagem_operacao_realizada(crud)
+                # Opção de Listar
+                elif opcao_crud == 2:
+                    crud = "Listar"
+                    mensagem_operacao_realizada(crud)
+                    listar(lista_estudantes)
 
-                        if len(estudantes) == 0:
-                            print("{:^35}".format("Não há estudantes cadastrados."))
-                            print("{:^35}".format("Acesse a opção de 'Incluir'"))
-                        else:
-                            # Listanto a posição e o nome dos estudantes que foram cadastrados!
-                            for posicao, estudante in enumerate(estudantes):
-                                print(f"{posicao + 1}° - {estudante}")
+                # Opção de Excluir
+                elif opcao_crud == 3:
+                    crud = "Excluir"
+                    mensagem_operacao_realizada(crud)
+                    foi_removido = remover(lista_estudantes)
+                    if foi_removido:
+                        print("{:^35}".format("Removido da base de dados!"))
+                    else:
+                        print("{:^35}".format("Código informado não encontrado!"))
 
-                    # Voltar para o menu inicial.
-                    elif opcao_crud == 5:
-                        break
+                # Opção de Alterar
+                elif opcao_crud == 4:
+                    crud = "Alterar"
+                    mensagem_operacao_realizada(crud)
+                    alterar(lista_estudantes)
 
-                # Opções em desenvolvimento do menu do CRUD!
-                elif opcao_crud in (3, 4):
-                    if opcao_crud == 3:
-                        crud = "Excluir"
-                    elif opcao_crud == 4:
-                        crud = "Alterar"
-
-                    mensagem_opcao_desenvolvimento(crud)
+                # Voltar para o menu inicial.
+                elif opcao_crud == 5:
+                    break
 
                 # Opção inválida da váriavel "opcao_crud"
                 else:
