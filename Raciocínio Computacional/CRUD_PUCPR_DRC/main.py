@@ -1,13 +1,17 @@
 '''
    Raciocínio Computacional
    CRUD - PUC-PR
-   ATIVIDADE FORMATIVA - Semana 5
+   ATIVIDADE FORMATIVA - Semana 6
    
    @Curso: Análise e Desenvolvimento de Sistemas
    @Autor: Matheus Vinicyus Strada
 '''
 
-# Leitura e tratamento de ERRO das opções dos menus: menu principal e menu crud.
+'''
+    Leitura da opção dos dois menus (menu inicial e menu crud), com o tratamento de ERRO para as opções do menu.
+
+    :return: Retorna um número da opção que esta disponivel no menu atual.
+'''
 def leitura_opcao_menu():
     while True:
         # Tratamento de Erro dos menus
@@ -28,7 +32,11 @@ def leitura_opcao_menu():
     return opcao
 
 
-# Menu inicial do sistema escolar.
+'''
+    Apresentação do menu inicial do sistema acadêmico.
+
+    :return: Retorna uma chamada a função "leitura_opcao_menu", ou seja retorna um valor tratado e válido.
+'''
 def menu_inicial():
     print('='*35)
     print("{:^35}".format("Sistema Acadêmico"))
@@ -43,7 +51,11 @@ def menu_inicial():
     return leitura_opcao_menu()
 
 
-# Menu de operação do CRUD.
+'''
+    Apresentação do menu de operação (CRUD).
+
+    :return: Retorna uma chamada a função "leitura_opcao_menu", ou seja retorna um valor tratado e válido.
+'''
 def menu_CRUD(opcao):
     print('='*35)
     print("{:^35}".format(f"Menu de operações - {opcao}"))
@@ -57,7 +69,12 @@ def menu_CRUD(opcao):
     return leitura_opcao_menu()
 
 
-# Operação 1 - Incluir
+'''
+    Operação 1 do menu do CRUD, função responsavel por incluir os dados.
+
+    :lista: Parâmetro obrigatório, lista atual do sistema, onde deve ser adicionado os dados.
+    :return: Retorna uma mensagem de Sucesso ou de Erro.
+'''
 def incluir(lista):
     dicionario = {}
     # Tratamento de erro.
@@ -87,7 +104,11 @@ def incluir(lista):
         return "{:^35}".format("Cadastrado com sucesso!")
 
 
-# Operação 2 - Listar
+'''
+    Operação 2 do menu do CRUD, função responsavel por listar os dados na lista infornada.
+
+    :lista: Parâmetro obrigatório, lista atual do sistema, onde deve ser mostrado os dados desta lista.
+'''
 def listar(lista):
     # Verificar se a algum dado na lista.
     if len(lista) == 0:
@@ -103,7 +124,12 @@ def listar(lista):
         input("Pressione enter para continuar!")
 
 
-# Operação 3 - Excluir
+'''
+    Operação 3 do menu do CRUD, função responsavel por exluir os dados da lista infornada.
+
+    :lista: Parâmetro obrigatório, lista atual do sistema, onde deve verificar e exluir os dados solicitados.
+    :return: Retorna um valor verdadeiro ou falso, se foi exluido.
+'''
 def remover(lista):
     # Tratamento de erro, para a leitura do código!
     try:
@@ -126,7 +152,11 @@ def remover(lista):
             return True
 
 
-# Operação 4 - Alterar
+'''
+    Operação 4 do menu do CRUD, função responsavel por Aleterar os dados da lista informada.
+
+    :lista: Parâmetro obrigatório, lista atual do sistema, onde deve verificar e alterar os dados solicitados.
+'''
 def alterar(lista):
     # Variavel auxiliar, serve para verificar se o código existe.
     verificar = remover(lista)
@@ -141,7 +171,11 @@ def alterar(lista):
         print("{:^35}".format("Verifique o código para edição"))
 
 
-# Mensagem para as opções em desenvolvimento.
+'''
+    Apresentação da mensagem das operações que estão em desenvolimento.
+
+    :opcao: Parâmetro obrigatório, é o valor que o usuário informa no menu de operação (menu inicial e CRUD).
+'''
 def mensagem_opcao_desenvolvimento(opcao):
     print("-"*35)
     print("{:^35}".format("EM DESENVOLVIMENTO!!!"))
@@ -150,21 +184,29 @@ def mensagem_opcao_desenvolvimento(opcao):
     print("-"*35)
 
 
-# Mensagem da operação realizada no crud.
+'''
+    Apresentação da mensagem da operação que foi selecionada.
+
+    :opcao: Parâmetro obrigatório, é o valor que o usuário informa no menu de operação (menu inicial e CRUD).
+'''
 def mensagem_operacao_realizada(opcao):
     print("+"*35)
     print("{:^35}".format(f"{opcao}"))
     print("+"*35)
 
 
-# Mensagem de Erro!
+'''
+    Apresentação da mensagem de ERRO, para quando não é concluida a operação.
+'''
 def mensagem_erro():
     print("!"*35)
     print("{:^35}".format(f"ERRO - Informação não cadastrada"))
     print("!"*35)
 
 
-# Mensagem para as opções inválidas!
+'''
+    Apresentação da mensagem de valor inválido, para quando o usuário informa um valor fora do range de opções.
+'''
 def mensagem_invalida():
     print("!"*35)
     print("{:^35}".format(f"ERRO - Opção inválida."))
@@ -172,7 +214,9 @@ def mensagem_invalida():
     print("!"*35)
 
 
-# Mensagem de finalização do Sitema.
+'''
+    Apresentação da mensagem de finalização do sistema, para quando o usuário finaliza o sistema.
+'''
 def mensagem_finalizar():
     print("~"*35)
     print("{:^35}".format("Obrigado por utilizar!"))
@@ -181,7 +225,9 @@ def mensagem_finalizar():
     print("~"*35)
 
 
-# Função principal do sistema.
+'''
+    Função principal do sistema, função responsavel por executar o Sistema Acadêmico.
+'''
 def main():
     # Inicialização das variáveis.
     lista_estudantes = [
