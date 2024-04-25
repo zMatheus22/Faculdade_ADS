@@ -1,11 +1,13 @@
 '''
    Raciocínio Computacional
    CRUD - PUC-PR
-   ATIVIDADE FORMATIVA - Semana 6
+   ATIVIDADE FORMATIVA - Semana 7
    
    @Curso: Análise e Desenvolvimento de Sistemas
    @Autor: Matheus Vinicyus Strada
 '''
+
+import json
 
 '''
     Leitura da opção dos dois menus (menu inicial e menu crud), com o tratamento de ERRO para as opções do menu.
@@ -70,12 +72,42 @@ def menu_CRUD(opcao):
 
 
 '''
+    Função responsavel por salvar os dados no arquivo JSON.
+
+    :lista: Parâmetro obrigatório, lista onde deve informação adicionar.
+    :arquivo_json: Parâmetro obrigatório, arquivo onde estão os dados guardados.
+'''
+def salvar_arquivo_json(lista, arquivo_json):
+    with open(arquivo_json, "w", encoding="utf-8") as arquivo:
+        json.dump(lista, arquivo, ensure_ascii=False)
+        arquivo.close()
+
+
+'''
+    Função responsavel por ler os dados que estão no arquivo JSON.
+
+    :arquivo_json: Parâmetro obrigatório, arquivo onde estão os dados guardados.
+    :return: Retorna a lista com os dados.
+'''
+def ler_arquivo_json(arquivo_json):
+    try:
+        with open(arquivo_json, "r", encoding="utf-8") as arquivo:
+            lista = json.load(arquivo)
+    except:
+        return []
+    else:
+        return lista
+    finally:
+        arquivo.close()
+
+
+'''
     Operação 1 do menu do CRUD, função responsavel por incluir os dados.
 
-    :lista: Parâmetro obrigatório, lista atual do sistema, onde deve ser adicionado os dados.
+    :arquivo_json: Parâmetro obrigatório, arquivo onde estão os dados guardados.
     :return: Retorna uma mensagem de Sucesso ou de Erro.
 '''
-def incluir(lista):
+def incluir(arquivo_json):
     dicionario = {}
     # Tratamento de erro.
     try:
@@ -96,30 +128,33 @@ def incluir(lista):
         mensagem_erro()
     # Caso de sucesso!
     else:
-        dicionario["codigo"] = codigo
-        dicionario["nome"] = nome
-        dicionario["cpf"] = cpf
+        dicionario["Código"] = codigo
+        dicionario["Nome"] = nome
+        dicionario["CPF"] = cpf
 
+        lista = ler_arquivo_json(arquivo_json)
         lista.append(dicionario)
+        salvar_arquivo_json(lista, arquivo_json)
         return "{:^35}".format("Cadastrado com sucesso!")
 
 
 '''
     Operação 2 do menu do CRUD, função responsavel por listar os dados na lista infornada.
 
-    :lista: Parâmetro obrigatório, lista atual do sistema, onde deve ser mostrado os dados desta lista.
+    :arquivo_json: Parâmetro obrigatório, arquivo onde estão os dados guardados.
 '''
-def listar(lista):
-    # Verificar se a algum dado na lista.
+def listar(arquivo_json):
+    lista = ler_arquivo_json(arquivo_json)
+    # Verificar se a lista/arquivo tem dados.
     if len(lista) == 0:
         print("{:^35}".format("Não há cadastrado."))
         print("{:^35}".format("Acesse a opção de 'Incluir'"))
     else:
         # Listar os dados cadastradados!
         for dicionario in lista:
-            print("{:^35}".format(f"Código: {dicionario['codigo']}"))
-            print("{:^35}".format(f"Nome: {dicionario['nome']}"))
-            print("{:^35}".format(f"CPF: {dicionario['cpf']}"))
+            print("{:^35}".format(f"Código: {dicionario['Código']}"))
+            print("{:^35}".format(f"Nome: {dicionario['Nome']}"))
+            print("{:^35}".format(f"CPF: {dicionario['CPF']}"))
             print("-"*35)
         input("Pressione enter para continuar!")
 
@@ -127,21 +162,22 @@ def listar(lista):
 '''
     Operação 3 do menu do CRUD, função responsavel por exluir os dados da lista infornada.
 
-    :lista: Parâmetro obrigatório, lista atual do sistema, onde deve verificar e exluir os dados solicitados.
+    :arquivo_json: Parâmetro obrigatório, arquivo onde estão os dados guardados.
     :return: Retorna um valor verdadeiro ou falso, se foi exluido.
 '''
-def remover(lista):
+def remover(arquivo_json):
     # Tratamento de erro, para a leitura do código!
     try:
         codigo_remocao = int(input("Informe o código: "))
     except:
         print("{:^35}".format("Você não informou um número ou código válido!"))
     else:
+        lista = ler_arquivo_json(arquivo_json)
         # Variavel auxiliar para remoção dos dados na lista.
         variavel_aux_remocao = None
         # Percorrer a lista para verificar se o código digitado esta cadastrado
         for dicionario in lista:
-            if dicionario["codigo"] == codigo_remocao:
+            if dicionario["Código"] == codigo_remocao:
                 variavel_aux_remocao = dicionario
                 break
         # Retorno se o dado foi ou não removido.
@@ -149,22 +185,23 @@ def remover(lista):
             return False
         else:
             lista.remove(variavel_aux_remocao)
+            salvar_arquivo_json(lista, arquivo_json)
             return True
 
 
 '''
     Operação 4 do menu do CRUD, função responsavel por Aleterar os dados da lista informada.
 
-    :lista: Parâmetro obrigatório, lista atual do sistema, onde deve verificar e alterar os dados solicitados.
+    :arquivo_json: Parâmetro obrigatório, arquivo onde estão os dados guardados.
 '''
-def alterar(lista):
+def alterar(arquivo_json):
     # Variavel auxiliar, serve para verificar se o código existe.
-    verificar = remover(lista)
+    verificar = remover(arquivo_json)
 
     # Caso o código exista.
     if verificar:
         print("{:^35}".format("Informe os dados para a atualização!"))
-        incluir(lista)
+        incluir(arquivo_json)
         print("{:^35}".format("Atualização realizada com Sucesso!"))
     # Caso o código não está cadastrado.
     else:
@@ -229,11 +266,12 @@ def mensagem_finalizar():
     Função principal do sistema, função responsavel por executar o Sistema Acadêmico.
 '''
 def main():
-    # Inicialização das variáveis.
-    lista_estudantes = [
-        {"codigo": 1, "nome": "Lucas", "cpf": "999"}, 
-        {"codigo": 2, "nome": "Pedro", "cpf": "555"}
-    ]
+    # Declarando o nome dos arquivos.
+    arquivo_esdutante = "estudantes.json"
+    arquivo_professor = "professores.json"
+    arquivo_disciplina = "disciplinas.json"
+    arquivo_turma = "turmas.json"
+    arquivo_matricula = "matriculas.json"
 
     while True:
         # Apresentação e leitura do menu inicial.
@@ -263,19 +301,19 @@ def main():
                 if opcao_crud == 1:
                     crud = "Incluir"
                     mensagem_operacao_realizada(crud)
-                    incluir(lista_estudantes)
+                    incluir(arquivo_esdutante)
 
                 # Opção de Listar
                 elif opcao_crud == 2:
                     crud = "Listar"
                     mensagem_operacao_realizada(crud)
-                    listar(lista_estudantes)
+                    listar(arquivo_esdutante)
 
                 # Opção de Excluir
                 elif opcao_crud == 3:
                     crud = "Excluir"
                     mensagem_operacao_realizada(crud)
-                    foi_removido = remover(lista_estudantes)
+                    foi_removido = remover(arquivo_esdutante)
                     if foi_removido:
                         print("{:^35}".format("Removido da base de dados!"))
                     else:
@@ -285,7 +323,7 @@ def main():
                 elif opcao_crud == 4:
                     crud = "Alterar"
                     mensagem_operacao_realizada(crud)
-                    alterar(lista_estudantes)
+                    alterar(arquivo_esdutante)
 
                 # Voltar para o menu inicial.
                 elif opcao_crud == 5:
