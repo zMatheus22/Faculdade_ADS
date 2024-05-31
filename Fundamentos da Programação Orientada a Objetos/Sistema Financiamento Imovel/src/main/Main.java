@@ -10,6 +10,8 @@ package main;
  */
 
 import java.util.Locale;
+
+import model.Financiamento;
 import util.InterfaceUsuario;
 
 public class Main {
@@ -22,11 +24,9 @@ public class Main {
         int prazo = user.pedir_Prazo_Financiamento();
         float taxa = user.pedir_Taxa_Juro();
 
-        // Apresentação.
-        System.out.printf("Valor do Imovel R$ %.2f\n", valor);
-        System.out.printf("O prazo do financiamento %d ano(s)\n", prazo);
-        System.out.printf("A taxa de juro: %.2f%% \n", taxa);
+        Financiamento financiamento = new Financiamento(valor, prazo, taxa);
 
+        financiamento.apresentar_Dados_Financiamento();
     }
 }
 
