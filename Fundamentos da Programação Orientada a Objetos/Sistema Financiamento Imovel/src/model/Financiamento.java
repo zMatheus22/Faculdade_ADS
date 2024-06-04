@@ -1,5 +1,8 @@
 package model;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+
 /**
  * Financiamento
  */
@@ -18,7 +21,18 @@ public class Financiamento {
 
     // Métodos
     public double calcular_Pagamento_Mes(){
-        return (this.valorImovel / (this.prazoFinanciamento * 12)) * (1 + (this.taxaJurosAnual / 12));
+        double calculo = (this.valorImovel / (this.prazoFinanciamento * 12)) * (1 + ((this.taxaJurosAnual/100) / 12));
+
+        // Formatando as casas decimais para 2.
+        DecimalFormat df = new DecimalFormat("#.00"); // Declarando o limite.
+        String result_String = df.format(calculo); // Reescrevendo o valor com o limite.
+        double result_Double = 0; // Variavel que irá receber o valor formatado.
+        try {
+            result_Double = df.parse(result_String).doubleValue(); // Converte a String em Double.
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return result_Double;
     }
 
     public double calcular_Total_Pagamento(){
