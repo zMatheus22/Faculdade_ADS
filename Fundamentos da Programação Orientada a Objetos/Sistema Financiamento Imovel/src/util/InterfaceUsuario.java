@@ -11,7 +11,10 @@ public class InterfaceUsuario {
 
     // Pedir ao usuário o valor do imóvel
     public double pedir_Valor_Imovel(){
+        int valorMinimoPermitido = 20000;
+        int valorMaximoPermitido = 1000000;
         double valor = 0;
+
         do{
             System.out.println("Informe o valor do imovel: R$ ");
             valor = scanner.nextDouble();
@@ -19,50 +22,55 @@ public class InterfaceUsuario {
             if (valor <= 0){
                 System.out.println("Valor não pode ser negativo!");
             }
-            else if(valor < 20000){
-                System.out.println("O financiamento deve ser no minimo R$ 20.000,00 (20 mil reais)!");
+            else if(valor < valorMinimoPermitido){
+                System.out.printf("O financiamento deve ser no minimo R$ %d,00!\n", valorMinimoPermitido);
             }
-            else if(valor >= 400000){
-                System.out.println("O financiamento tem um limite de R$ 400.000,00 (400 mil reais)!");
+            else if(valor >= valorMaximoPermitido){
+                System.out.printf("O financiamento tem um limite de R$ %d,00!\n", valorMaximoPermitido);
             }
-        }while (valor < 20000 || valor > 400000);
+        }while (valor < valorMinimoPermitido || valor > valorMaximoPermitido);
 
         return valor;
     }
 
     // Pedir ao usuário o prazo do financiamento
     public int pedir_Prazo_Financiamento(){
+        int prazoMinimoPermitido = 1;
+        int prazoMaximoPermitido = 40;
         int prazo = 0;
 
         do{
             System.out.println("Informe o prazo do financiamento em anos: ");
             prazo = scanner.nextInt();
-            if (prazo <= 0){
-                System.out.println("O prazo deve ser maior ou igual a 1 ano.");
+            if (prazo < prazoMinimoPermitido){
+                System.out.printf("O prazo deve ser maior ou igual a %d ano.\n", prazoMinimoPermitido);
             }
-            else if (prazo >= 40){
-                System.out.println("O prazo limete para o financiamento é de 40 anos.");
+            else if (prazo >= prazoMaximoPermitido){
+                System.out.printf("O prazo limete para o financiamento é de %d anos.\n", prazoMaximoPermitido);
             }
-        }while (prazo <= 0 || prazo >= 40);
+        }while (prazo < prazoMinimoPermitido || prazo >= prazoMaximoPermitido);
 
         return prazo;
     }
 
     // Pedir ao usuário a taxa de juros
     public float pedir_Taxa_Juro(){
+        int taxaMinimaPermitida = 1;
+        int taxaMaximaPermitida = 25;
         float taxa = 0;
+
         do {
-            System.out.println("Informe a taxa de juro em %: ");
+            System.out.println("Informe a taxa de juro em anos, %: ");
             taxa = scanner.nextFloat();
 
-            if (taxa <= 0){
-                System.out.println("A taxa de juros não pode ser igual a 0% ou negativa!");
+            if (taxa < taxaMinimaPermitida){
+                System.out.printf("A taxa de juros não pode ser menor que %d%%!\n", taxaMinimaPermitida);
             }
-            else if(taxa > 25){
-                System.out.println("A taxa de juros não pode utrapassar 25% ao ano!");
+            else if(taxa > taxaMaximaPermitida){
+                System.out.printf("A taxa de juros não pode utrapassar %d%% ao ano!\n",taxaMaximaPermitida);
             }
 
-        }while (taxa <= 0 || taxa > 25);
+        }while (taxa < taxaMinimaPermitida || taxa > taxaMaximaPermitida);
 
         return taxa;
     }
