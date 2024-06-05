@@ -20,7 +20,7 @@ public class Financiamento {
     }
 
     // Métodos
-    public double calcular_Pagamento_Mes(){
+    public double calcularPagamentoMes(){
         double calculo = (this.valorImovel / (this.prazoFinanciamento * 12)) * (1 + ((this.taxaJurosAnual/100) / 12));
 
         // Formatando as casas decimais para 2.
@@ -35,8 +35,8 @@ public class Financiamento {
         return result_Double;
     }
 
-    public double calcular_Total_Pagamento(){
-        return calcular_Pagamento_Mes() * this.prazoFinanciamento * 12;
+    public double calcularTotalFinanciamento(){
+        return this.calcularPagamentoMes() * this.prazoFinanciamento * 12;
     }
 
     public double getValorImovel(){
@@ -51,12 +51,12 @@ public class Financiamento {
         return this.taxaJurosAnual;
     }
 
-    public void apresentar_Dados_Financiamento(){
+    public void apresentarDadosFinanciamento(){
         System.out.printf("Valor do Imovel R$ %.2f\n", getValorImovel());
         System.out.printf("O prazo do financiamento %d ano(s)\n", getPrazoFinanciamento());
         System.out.printf("A taxa de juro: %.2f%% \n", getTaxaJurosAnual());
-        System.out.printf("Valor da mensal do financiamento:  %.2f\n", calcular_Pagamento_Mes());
-        System.out.printf("Valor total do financiamento: %.2f\n", calcular_Total_Pagamento());
-
+        System.out.printf("Valor da mensalidade: R$ %.2f\n", calcularPagamentoMes());
+        System.out.printf("Valor do financiamento: R$ %.2f\n", calcularTotalFinanciamento());
+        System.out.println("-----------------------------------------");
     }
 }

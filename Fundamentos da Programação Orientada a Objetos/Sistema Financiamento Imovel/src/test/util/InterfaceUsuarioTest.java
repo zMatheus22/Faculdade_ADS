@@ -18,7 +18,7 @@ public class InterfaceUsuarioTest {
         inputByte = new ByteArrayInputStream(input.getBytes());
         System.setIn(inputByte);
 
-        double valor = user.pedir_Valor_Imovel();
+        double valor = user.pedirValorImovel();
 
         // Verificar se o valor retornado é igual a 50000
         assertEquals(500000, valor, "O valor do imóvel deve ser 50000");
