@@ -24,6 +24,8 @@ public class Main {
         ArrayList<Financiamento> arrayFinanciamento = new ArrayList<Financiamento>();
 
         int opcao = 0;
+        double somaValor = 0;
+        double somaFinanciamento = 0;
 
         double valor = 0;
         int prazo = 0;
@@ -38,8 +40,10 @@ public class Main {
                 case 1:
                     // Leitura dos valores.
                     valor = user.pedirValorImovel();
+                    somaValor += valor;
                     prazo = user.pedirPrazoFinanciamento();
                     taxa = user.pedirTaxaJuro();
+                    somaFinanciamento += new Financiamento(valor, prazo, taxa).calcularTotalFinanciamento();
                     arrayFinanciamento.add(new Financiamento(valor, prazo, taxa));
                     break;
 
@@ -49,6 +53,9 @@ public class Main {
                     for (int i = 0; i < arrayFinanciamento.size(); i++){
                         arrayFinanciamento.get(i).apresentarDadosFinanciamento();
                     }
+                    System.out.printf("Total de todos os imóveis: R$ %.2f\n", somaValor);
+                    System.out.printf("Todos os financiamentos: R$ %.2f\n", somaFinanciamento);
+                    System.out.println("-----------------------------------------");
                     break;
 
                 case 9:
