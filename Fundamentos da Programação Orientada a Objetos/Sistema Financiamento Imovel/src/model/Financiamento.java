@@ -27,6 +27,7 @@ public class Financiamento {
         DecimalFormat df = new DecimalFormat("#.00"); // Declarando o limite.
         String result_String = df.format(calculo); // Reescrevendo o valor com o limite.
         double result_Double = 0; // Variavel que irá receber o valor formatado.
+        // Tratamento de erro.
         try {
             result_Double = df.parse(result_String).doubleValue(); // Converte a String em Double.
         } catch (ParseException e) {

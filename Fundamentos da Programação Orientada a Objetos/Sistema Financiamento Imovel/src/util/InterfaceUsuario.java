@@ -1,6 +1,7 @@
 package util;
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 /**
  * Interface Usuario
@@ -17,7 +18,15 @@ public class InterfaceUsuario {
 
         do{
             System.out.print("Informe o valor do imovel: R$ ");
-            valor = scanner.nextDouble();
+
+            // Tratamento de erro.
+            try{
+                valor = scanner.nextDouble();
+            }
+            catch (InputMismatchException err){
+                System.out.print("Você informou informou um dado incorreto, tente novamente.\n");
+                scanner.nextLine();
+            }
 
             if (valor <= 0){
                 System.out.println("Valor não pode ser negativo!");
@@ -25,7 +34,7 @@ public class InterfaceUsuario {
             else if(valor < valorMinimoPermitido){
                 System.out.printf("O financiamento deve ser no minimo R$ %d,00!\n", valorMinimoPermitido);
             }
-            else if(valor >= valorMaximoPermitido){
+            else if(valor > valorMaximoPermitido){
                 System.out.printf("O financiamento tem um limite de R$ %d,00!\n", valorMaximoPermitido);
             }
         }while (valor < valorMinimoPermitido || valor > valorMaximoPermitido);
@@ -41,14 +50,22 @@ public class InterfaceUsuario {
 
         do{
             System.out.print("Informe o prazo do financiamento em anos: ");
-            prazo = scanner.nextInt();
+
+            // Tratamento de erro.
+            try{
+                prazo = scanner.nextInt();
+            }catch (InputMismatchException err){
+                System.out.print("Você informou informou um dado incorreto, tente novamente.\n");
+                scanner.nextLine();
+            }
+
             if (prazo < prazoMinimoPermitido){
                 System.out.printf("O prazo deve ser maior ou igual a %d ano.\n", prazoMinimoPermitido);
             }
-            else if (prazo >= prazoMaximoPermitido){
+            else if (prazo > prazoMaximoPermitido){
                 System.out.printf("O prazo limete para o financiamento é de %d anos.\n", prazoMaximoPermitido);
             }
-        }while (prazo < prazoMinimoPermitido || prazo >= prazoMaximoPermitido);
+        }while (prazo < prazoMinimoPermitido || prazo > prazoMaximoPermitido);
 
         return prazo;
     }
@@ -57,11 +74,20 @@ public class InterfaceUsuario {
     public float pedirTaxaJuro(){
         int taxaMinimaPermitida = 1;
         int taxaMaximaPermitida = 25;
-        float taxa = 0;
+        float taxa = 0.0f;
 
         do {
             System.out.print("Informe a taxa de juro em anos, %: ");
-            taxa = scanner.nextFloat();
+
+            // Tratamento de erro.
+            try{
+                String input = scanner.next();
+                input = input.replace(',','.');
+                taxa = Float.parseFloat(input);
+            }catch (InputMismatchException err){
+                System.out.print("Você informou informou um dado incorreto, tente novamente.\n");
+                scanner.nextLine();
+            }
 
             if (taxa < taxaMinimaPermitida){
                 System.out.printf("A taxa de juros não pode ser menor que %d%%!\n", taxaMinimaPermitida);
@@ -69,7 +95,6 @@ public class InterfaceUsuario {
             else if(taxa > taxaMaximaPermitida){
                 System.out.printf("A taxa de juros não pode utrapassar %d%% ao ano!\n",taxaMaximaPermitida);
             }
-
         }while (taxa < taxaMinimaPermitida || taxa > taxaMaximaPermitida);
 
         return taxa;
