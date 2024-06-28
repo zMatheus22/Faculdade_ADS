@@ -8,9 +8,9 @@ import java.text.ParseException;
  */
 public class Financiamento {
     // Atributo
-    private double valorImovel;
-    private int prazoFinanciamento;
-    private double taxaJurosAnual;
+    protected double valorImovel;
+    protected int prazoFinanciamento;
+    protected double taxaJurosAnual;
 
     // Construtor
     public Financiamento(double valor_Imovel, int prazo_Financiamento, double taxa_Juro){
@@ -49,7 +49,11 @@ public class Financiamento {
     }
 
     public double getTaxaJurosAnual(){
-        return this.taxaJurosAnual;
+        return this.taxaJurosAnual / 100;
+    }
+
+    public double getTaxaJurosMensal(){
+        return (this.taxaJurosAnual / 100) / 12;
     }
 
     public void apresentarDadosFinanciamento(){
