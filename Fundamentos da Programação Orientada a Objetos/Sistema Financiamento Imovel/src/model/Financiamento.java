@@ -53,7 +53,7 @@ public class Financiamento {
     }
 
     public double getTaxaJurosMensal(){
-        return (this.taxaJurosAnual / 100) / 12;
+        return getTaxaJurosAnual() / 12;
     }
 
     public void apresentarDadosFinanciamento(){

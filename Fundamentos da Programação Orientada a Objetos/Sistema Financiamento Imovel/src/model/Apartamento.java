@@ -1,7 +1,10 @@
 package model;
 
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.math.BigDecimal;
 
 public class Apartamento extends Financiamento {
 
@@ -11,17 +14,28 @@ public class Apartamento extends Financiamento {
 
     @Override
     public double calcularPagamentoMes() {
-        //            (500000           * (1 + (0,10/12))
-        double base = super.valorImovel * (1 + ((super.taxaJurosAnual / 100)/ 12));
-        //                 (10                       * 12))
-        double expoente1 = (super.prazoFinanciamento * 12);
-        //      (base^expoente1) /((1 + (0,10 / 12))
-        double expoente2 = base / (1 + super.getTaxaJurosMensal());
-        //                ^ (10                       * 12) - 1)
-        double expoente3 =  (super.prazoFinanciamento * 12) - 1;
+        int mesAno = 12;
+        int prazo = getPrazoFinanciamento();
+        double valor = getValorImovel();
+        double taxa = getTaxaJurosMensal();
+        int messes = prazo * mesAno;
 
-        String test2 = "Base: "+base+", Expoente01: "+expoente1+", Expoente02: "+expoente2+", Expoente03: "+expoente3;
-        System.out.printf(test2);
-        return 0;
+        // Formatando as casas decimais para 2.
+        DecimalFormat df = new DecimalFormat("#.00"); // Declarando o limite.
+        double result_Double = 0; // Variavel que irá receber o valor formatado.
+
+        // Cálculo da fórmula
+        double numerator = valor * Math.pow(1 + taxa, messes);
+        double denominator = Math.pow(1 + taxa, (messes - 1));
+        double calculo = numerator / denominator;
+        String result_String = df.format(calculo); // Reescrevendo o valor com o limite.
+
+        // Tratamento de erro.
+        try {
+            result_Double = df.parse(result_String).doubleValue(); // Converte a String em Double.
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return result_Double;
     }
 }

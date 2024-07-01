@@ -19,4 +19,11 @@ public class FinanciamentoTest {
         double result = new Financiamento(345000, 25, 11.25).calcularPagamentoMes();
         assertEquals(1160.78, result);
     }
+
+    @Test
+    @DisplayName("Fincanciamento do valor de R$ 500.000,00, 10% de juros, 10 anos, o pago mensal teve ser R$ 4201,39")
+    public void test_calculo_Mes_3(){
+        double result = new Financiamento(500000, 10, 10).calcularPagamentoMes();
+        assertEquals(4201.39, result);
+    }
 }
