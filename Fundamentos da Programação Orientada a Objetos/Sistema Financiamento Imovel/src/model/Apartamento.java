@@ -48,16 +48,16 @@ public class Apartamento extends Financiamento {
     }
 
     @Override
+    public double calcularTotalFinanciamento() {
+        double calculo = this.calcularPagamentoMes() * this.prazoFinanciamento * 12;
+        return converterCasasDecimais(calculo);
+    }
+
+    @Override
     public void imprimirDetalhesEspecificos(){
         System.out.println("Número do apartamento: " + this.getNumeroApartamento());
         System.out.println("Número do andar: " + this.getNumeroAndar());
         System.out.println("Quantidade de vagas na garagem: " + this.getQuantidadeVaga());
         System.out.println("---------------------------------------------------------");
-    }
-
-    @Override
-    public double calcularTotalFinanciamento() {
-        double calculo = this.calcularPagamentoMes() * this.prazoFinanciamento * 12;
-        return converterCasasDecimais(calculo);
     }
 }

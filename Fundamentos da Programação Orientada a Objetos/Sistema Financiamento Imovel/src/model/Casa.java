@@ -1,5 +1,7 @@
 package model;
 
+import util.DescontoMaiorDoQueJurosException;
+
 public class Casa extends Financiamento{
     // Atributo
     private float areaConstruida;
@@ -21,24 +23,40 @@ public class Casa extends Financiamento{
         return this.areaTerreno;
     }
 
-    @Override
-    public void imprimirDetalhesEspecificos(){
-        System.out.println("Área construída: " + this.getAreaConstruida());
-        System.out.println("Área do terreno: " + this.getAreaTerreno());
-        System.out.println("---------------------------------------------------------");
+    private void descontoMaiorDoQueJurosException(double valorDiferenca, double valorAcrecimo) throws DescontoMaiorDoQueJurosException{
+        if (valorDiferenca < valorAcrecimo) {
+            throw new DescontoMaiorDoQueJurosException("O valor do acrecimo passa a ser R$ " + converterCasasDecimais(valorDiferenca));
+        }
     }
 
     @Override
     public double calcularPagamentoMes(){
-        double valorSeguro = 80;
-        double calculo = (this.valorImovel / (this.prazoFinanciamento * 12)) * (1 + ((this.taxaJurosAnual/100) / 12));
-        calculo += valorSeguro;
-        return converterCasasDecimais(calculo);
+        double valorAcrecimo = 80;
+        double valorMensal = (this.valorImovel / (this.prazoFinanciamento * 12));
+        double valorTotal = valorMensal * (1 + ((this.taxaJurosAnual/100) / 12));
+        double valorDiferenca = valorTotal - valorMensal;
+
+        try {
+            descontoMaiorDoQueJurosException(valorDiferenca, valorAcrecimo);
+        } catch (DescontoMaiorDoQueJurosException e){
+            System.out.println(e.getMessage());
+            valorAcrecimo = valorDiferenca;
+        }
+
+        valorTotal += valorAcrecimo;
+        return converterCasasDecimais(valorTotal);
     }
 
     @Override
     public double calcularTotalFinanciamento() {
         double calculo = this.calcularPagamentoMes() * this.prazoFinanciamento * 12;
         return converterCasasDecimais(calculo);
+    }
+
+    @Override
+    public void imprimirDetalhesEspecificos(){
+        System.out.println("Área construída: " + this.getAreaConstruida());
+        System.out.println("Área do terreno: " + this.getAreaTerreno());
+        System.out.println("---------------------------------------------------------");
     }
 }

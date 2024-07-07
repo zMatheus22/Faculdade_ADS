@@ -12,6 +12,14 @@ public class CasaTest {
     public void test_calculo_Mes_Casa(){
         Casa c = new Casa(500000,10, 10, 10000, 20000);
         double result = c.calcularPagamentoMes();
-        assertEquals(4281.39, result);
+        assertEquals(4236.11, result);
+    }
+
+    @Test
+    @DisplayName("Financimanto de um casa com o valor de R$ 375.000,00, 15,75% de juros, 5 anos")
+    public void test_calculo_Mes_Casa2() {
+        Casa c = new Casa(375000, 5, 15.75, 10000, 20000);
+        double result = c.calcularPagamentoMes();
+        assertEquals(6412.03, result);
     }
 }

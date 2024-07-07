@@ -3,15 +3,13 @@ package main;
 /**
  * Fundamentos da Programação Orientada a Objetos
  * Sistema de Simulação de Financiamentos Imobiliários Banco - PUC-PR
- * ATIVIDADE SOMATIVA - Semana 6
+ * ATIVIDADE SOMATIVA - Semana 7
 
  * @Curso: Análise e Desenvolvimento de Sistemas
  * @Autor: Matheus Vinicyus Strada
  */
 
 import java.util.*;
-
-import model.Casa;
 import model.Financiamento;
 import util.InterfaceApartamento;
 import util.InterfaceCasa;
@@ -29,19 +27,20 @@ public class Main {
 
         int opcao = 0;
         int opcaoFinancia = 0;
-        double somaValor = 0;
-        double somaFinanciamento = 0;
 
         do {
             opcao = menuInicial();
             switch (opcao) {
                 case 1:
-                    System.out.println("Casa");
+                    // Casa
                     do {
+                        System.out.println("===================");
+                        System.out.println("        Casa       ");
+                        System.out.println("===================");
                         opcaoFinancia = menuCRUD();
                         switch (opcaoFinancia) {
                             case 1:
-                                casa.cadastroFinanciamentoEspecifico();
+                                financiamento = casa.cadastroFinanciamentoEspecifico();
                                 break;
                             case 2:
                                 casa.imprimirDadosFinanciamento(financiamento);
@@ -55,33 +54,46 @@ public class Main {
                     break;
 
                 case 2:
-                    opcaoFinancia = menuCRUD();
-                    switch (opcaoFinancia) {
-                        case 1:
-                            apartamento.cadastroFinanciamentoEspecifico();
-                            break;
-                        case 2:
-                            apartamento.imprimirDadosFinanciamento(financiamento);
-                            break;
-                        default:
-                            System.out.println("Voltando ao menu inicial.");
-                            break;
-                    }
+                    // Apartamento
+                    do {
+                        System.out.println("===================");
+                        System.out.println("    Apartamento    ");
+                        System.out.println("===================");
+                        opcaoFinancia = menuCRUD();
+                        switch (opcaoFinancia) {
+                            case 1:
+                                financiamento = apartamento.cadastroFinanciamentoEspecifico();
+                                break;
+                            case 2:
+                                apartamento.imprimirDadosFinanciamento(financiamento);
+                                break;
+                            default:
+                                System.out.println("Voltando ao menu inicial.");
+                                break;
+                        }
+                    }while (opcaoFinancia != 9);
+
                 break;
 
                 case 3:
-                    opcaoFinancia = menuCRUD();
-                    switch (opcaoFinancia) {
-                        case 1:
-                            terreno.cadastroFinanciamentoEspecifico();
-                            break;
-                        case 2:
-                            terreno.imprimirDadosFinanciamento(financiamento);
-                            break;
-                        default:
-                            System.out.println("Voltando ao menu inicial.");
-                            break;
-                    }
+                    // Terreno
+                    do {
+                        System.out.println("===================");
+                        System.out.println("      Terreno      ");
+                        System.out.println("===================");
+                        opcaoFinancia = menuCRUD();
+                        switch (opcaoFinancia) {
+                            case 1:
+                                financiamento = terreno.cadastroFinanciamentoEspecifico();
+                                break;
+                            case 2:
+                                terreno.imprimirDadosFinanciamento(financiamento);
+                                break;
+                            default:
+                                System.out.println("Voltando ao menu inicial.");
+                                break;
+                        }
+                    }while (opcaoFinancia != 9);
                 break;
 
                 case 9:
@@ -95,7 +107,7 @@ public class Main {
         }while (opcao != 9);
     }
 
-    public static int lerOpcao() {
+    private static int lerOpcao() {
         int opcao = 0;
         Scanner sc = new Scanner(System.in);
         do {
@@ -110,7 +122,7 @@ public class Main {
         }while (true);
     }
 
-    public static int menuInicial(){
+    private static int menuInicial(){
         System.out.println("Informe um dos Financiamento abaixo:");
         System.out.println("1 - Casa.");
         System.out.println("2 - Apartamento.");
@@ -120,7 +132,7 @@ public class Main {
         return lerOpcao();
     }
 
-    public static int menuCRUD(){
+    private static int menuCRUD(){
         System.out.println("Informe um das opções abaixo:");
         System.out.println("1 - Cadastro.");
         System.out.println("2 - Imprimir.");

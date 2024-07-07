@@ -122,10 +122,10 @@ public abstract class InterfaceUsuario {
     // Imprimir os dados básicos do financiamento.
     public void imprimirDadosBasicos(Financiamento financiamento) {
         System.out.println("---------------------------------------------------------");
-        System.out.println("Valor do imóvel: R$ " + financiamento.getValorImovel());
-        System.out.println("Prazo do financiamento: " + financiamento.getPrazoFinanciamento() + " anos.");
-        System.out.println("Taxa de juros mensal: " + financiamento.getTaxaJurosMensal()*100 + " %");
-        System.out.println("Taxa de juros anual: " + financiamento.getTaxaJurosAnual()*100 + " %");
+        System.out.printf("Valor do imóvel: R$ %f \n", financiamento.getValorImovel());
+        System.out.printf("Prazo do financiamento: %d anos.\n", financiamento.getPrazoFinanciamento());
+        System.out.printf("Taxa de juros mensal: %.2f %%\n", financiamento.getTaxaJurosMensal()*100);
+        System.out.printf("Taxa de juros anual: %.2f %%\n", financiamento.getTaxaJurosAnual()*100);
         // Os demais dados estaram nas interfaces de cada financiamento.
     }
 
