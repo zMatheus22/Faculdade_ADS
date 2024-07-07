@@ -1,29 +1,40 @@
 package model;
 
-import java.text.DecimalFormat;
-import java.text.ParseException;
-
 public class Terreno extends Financiamento{
-    public Terreno(double valor_Imovel, int prazo_Financiamento, double taxa_Juro){
+
+    private int tipoZona;
+
+    public Terreno(double valor_Imovel, int prazo_Financiamento, double taxa_Juro, int tipoZona){
         super(valor_Imovel, prazo_Financiamento, taxa_Juro);
+        this.tipoZona = tipoZona;
+    }
+
+    public String getTipoZona(){
+        return switch (this.tipoZona) {
+            case 1 -> "Residencial";
+            case 2 -> "Comercial";
+            case 3 -> "Rural/Agrícola";
+            case 4 -> "Industrial";
+            default -> "Tipo de zona não cadastrada.";
+        };
     }
 
     @Override
     public double calcularPagamentoMes() {
-        double calculo = super.calcularPagamentoMes() * 1.02;
+        double calculo = (this.valorImovel / (this.prazoFinanciamento * 12)) * (1 + ((this.taxaJurosAnual/100) / 12)) * 1.02;
 
-        // Formatando as casas decimais para 2.
-        DecimalFormat df = new DecimalFormat("#.00"); // Declarando o limite.
-        String result_String = df.format(calculo); // Reescrevendo o valor com o limite.
-        double result_Double = 0; // Variavel que irá receber o valor formatado.
+        return converterCasasDecimais(calculo);
+    }
 
-        // Tratamento de erro.
-        try {
-            result_Double = df.parse(result_String).doubleValue(); // Converte a String em Double.
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+    @Override
+    public double calcularTotalFinanciamento() {
+        double calculo = this.calcularPagamentoMes() * this.prazoFinanciamento * 12;
+        return converterCasasDecimais(calculo);
+    }
 
-        return result_Double;
+    @Override
+    public void imprimirDetalhesEspecificos(){
+        System.out.println("O tipo do terreno é " + this.getTipoZona());
+        System.out.println("---------------------------------------------------------");
     }
 }

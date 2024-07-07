@@ -7,35 +7,57 @@ import java.util.ArrayList;
 import java.math.BigDecimal;
 
 public class Apartamento extends Financiamento {
+    // Incluir um atributo para o número de vagas da garagem, e outro atributo para o número do andar.
+    private int numeroAndar;
+    private int numeroApartamento;
+    private int quantidadeVaga;
 
-    public Apartamento(double valor_Imovel, int prazo_Financiamento, double taxa_Juro){
+    public Apartamento(double valor_Imovel, int prazo_Financiamento, double taxa_Juro, int numeroApartamento, int numeroAndar , int quantidadeVaga){
         super(valor_Imovel, prazo_Financiamento, taxa_Juro);
+        this.numeroApartamento = numeroApartamento;
+        this.numeroAndar = numeroAndar;
+        this.quantidadeVaga = quantidadeVaga;
+    }
+
+    public int getNumeroApartamento(){
+        return this.numeroApartamento;
+    }
+
+    public int getNumeroAndar(){
+        return this.numeroAndar;
+    }
+
+    public int getQuantidadeVaga(){
+        return this.quantidadeVaga;
     }
 
     @Override
     public double calcularPagamentoMes() {
         int mesAno = 12;
-        int prazo = getPrazoFinanciamento();
-        double valor = getValorImovel();
-        double taxa = getTaxaJurosMensal();
+        int prazo = this.getPrazoFinanciamento();
+        double valor = this.getValorImovel();
+        double taxa = this.getTaxaJurosMensal();
         int messes = prazo * mesAno;
-
-        // Formatando as casas decimais para 2.
-        DecimalFormat df = new DecimalFormat("#.00"); // Declarando o limite.
-        double result_Double = 0; // Variavel que irá receber o valor formatado.
 
         // Cálculo da fórmula
         double numerator = valor * Math.pow(1 + taxa, messes);
         double denominator = Math.pow(1 + taxa, (messes - 1));
         double calculo = numerator / denominator;
-        String result_String = df.format(calculo); // Reescrevendo o valor com o limite.
 
-        // Tratamento de erro.
-        try {
-            result_Double = df.parse(result_String).doubleValue(); // Converte a String em Double.
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        return result_Double;
+        return converterCasasDecimais(calculo);
+    }
+
+    @Override
+    public void imprimirDetalhesEspecificos(){
+        System.out.println("Número do apartamento: " + this.getNumeroApartamento());
+        System.out.println("Número do andar: " + this.getNumeroAndar());
+        System.out.println("Quantidade de vagas na garagem: " + this.getQuantidadeVaga());
+        System.out.println("---------------------------------------------------------");
+    }
+
+    @Override
+    public double calcularTotalFinanciamento() {
+        double calculo = this.calcularPagamentoMes() * this.prazoFinanciamento * 12;
+        return converterCasasDecimais(calculo);
     }
 }

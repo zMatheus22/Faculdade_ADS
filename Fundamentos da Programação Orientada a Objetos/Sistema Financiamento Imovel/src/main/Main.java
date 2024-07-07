@@ -3,63 +3,89 @@ package main;
 /**
  * Fundamentos da Programação Orientada a Objetos
  * Sistema de Simulação de Financiamentos Imobiliários Banco - PUC-PR
- * ATIVIDADE FORMATIVA - Semana 4
+ * ATIVIDADE SOMATIVA - Semana 6
 
  * @Curso: Análise e Desenvolvimento de Sistemas
  * @Autor: Matheus Vinicyus Strada
  */
 
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
+import model.Casa;
 import model.Financiamento;
-import util.InterfaceUsuario;
+import util.InterfaceApartamento;
+import util.InterfaceCasa;
+import util.InterfaceTerreno;
+
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
         Locale.setDefault(new Locale("pt", "BR"));
-        InterfaceUsuario user = new InterfaceUsuario();
-        ArrayList<Financiamento> arrayFinanciamento = new ArrayList<Financiamento>();
+        ArrayList<? extends Financiamento> financiamento = new ArrayList<>();
+
+        InterfaceCasa casa = new InterfaceCasa();
+        InterfaceApartamento apartamento = new InterfaceApartamento();
+        InterfaceTerreno terreno = new InterfaceTerreno();
 
         int opcao = 0;
+        int opcaoFinancia = 0;
         double somaValor = 0;
         double somaFinanciamento = 0;
 
-        double valor = 0;
-        int prazo = 0;
-        float taxa = 0;
         do {
-            System.out.println("Informe uma das opções abaixo:");
-            System.out.println("1 - Informar valores.");
-            System.out.println("2 - Imprimir dados.");
-            System.out.println("9 - Sair do Sistema");
-            opcao = scanner.nextInt();
+            opcao = menuInicial();
             switch (opcao) {
                 case 1:
-                    // Leitura dos valores.
-                    valor = user.pedirValorImovel();
-                    somaValor += valor;
-                    prazo = user.pedirPrazoFinanciamento();
-                    taxa = user.pedirTaxaJuro();
-                    somaFinanciamento += new Financiamento(valor, prazo, taxa).calcularTotalFinanciamento();
-                    arrayFinanciamento.add(new Financiamento(valor, prazo, taxa));
+                    System.out.println("Casa");
+                    do {
+                        opcaoFinancia = menuCRUD();
+                        switch (opcaoFinancia) {
+                            case 1:
+                                casa.cadastroFinanciamentoEspecifico();
+                                break;
+                            case 2:
+                                casa.imprimirDadosFinanciamento(financiamento);
+                                break;
+                            default:
+                                System.out.println("Voltando ao menu inicial.");
+                                break;
+                        }
+                    } while (opcaoFinancia != 9);
+
                     break;
 
                 case 2:
-                    // Imprimir os dados
-                    System.out.println("-----------------------------------------");
-                    for (int i = 0; i < arrayFinanciamento.size(); i++){
-                        arrayFinanciamento.get(i).apresentarDadosFinanciamento();
+                    opcaoFinancia = menuCRUD();
+                    switch (opcaoFinancia) {
+                        case 1:
+                            apartamento.cadastroFinanciamentoEspecifico();
+                            break;
+                        case 2:
+                            apartamento.imprimirDadosFinanciamento(financiamento);
+                            break;
+                        default:
+                            System.out.println("Voltando ao menu inicial.");
+                            break;
                     }
-                    System.out.printf("Total de todos os imóveis: R$ %.2f\n", somaValor);
-                    System.out.printf("Todos os financiamentos: R$ %.2f\n", somaFinanciamento);
-                    System.out.println("-----------------------------------------");
-                    break;
+                break;
+
+                case 3:
+                    opcaoFinancia = menuCRUD();
+                    switch (opcaoFinancia) {
+                        case 1:
+                            terreno.cadastroFinanciamentoEspecifico();
+                            break;
+                        case 2:
+                            terreno.imprimirDadosFinanciamento(financiamento);
+                            break;
+                        default:
+                            System.out.println("Voltando ao menu inicial.");
+                            break;
+                    }
+                break;
 
                 case 9:
-                    System.out.println("Obrigado!");
+                    System.out.println("Sistema finalizando, Obrigado!");
                     break;
 
                 default:
@@ -68,5 +94,39 @@ public class Main {
             }
         }while (opcao != 9);
     }
-}
 
+    public static int lerOpcao() {
+        int opcao = 0;
+        Scanner sc = new Scanner(System.in);
+        do {
+            System.out.println("Digite uma opção válido: ");
+            try {
+                opcao = sc.nextInt();
+                return opcao;
+            }catch (InputMismatchException e){
+                System.out.println("Você não informou um número, tente novamente!");
+                sc.next();
+            }
+        }while (true);
+    }
+
+    public static int menuInicial(){
+        System.out.println("Informe um dos Financiamento abaixo:");
+        System.out.println("1 - Casa.");
+        System.out.println("2 - Apartamento.");
+        System.out.println("3 - Terreno.");
+        System.out.println("9 - Sair.");
+
+        return lerOpcao();
+    }
+
+    public static int menuCRUD(){
+        System.out.println("Informe um das opções abaixo:");
+        System.out.println("1 - Cadastro.");
+        System.out.println("2 - Imprimir.");
+        System.out.println("9 - Sair.");
+
+        return lerOpcao();
+    }
+
+}

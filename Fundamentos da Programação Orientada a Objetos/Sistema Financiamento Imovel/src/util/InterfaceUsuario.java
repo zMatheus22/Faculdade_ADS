@@ -1,12 +1,14 @@
 package util;
 
+import model.Financiamento;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
 /**
  * Interface Usuario
  */
-public class InterfaceUsuario {
+public abstract class InterfaceUsuario {
     Scanner scanner = new Scanner(System.in);
     // Métodos
 
@@ -24,7 +26,7 @@ public class InterfaceUsuario {
                 valor = scanner.nextDouble();
             }
             catch (InputMismatchException err){
-                System.out.print("Você informou informou um dado incorreto, tente novamente.\n");
+                System.out.print("Você informou um valor incorreto, tente novamente.\n");
                 scanner.nextLine();
             }
 
@@ -99,4 +101,35 @@ public class InterfaceUsuario {
 
         return taxa;
     }
+
+    // Leitura/cadastro dos dados básicos do financiamento.
+    public ArrayList<Object> cadastroFinanciamento(){
+        // Leitura dos valores.
+        double valor = this.pedirValorImovel();
+        int prazo = this.pedirPrazoFinanciamento();
+        float taxa = this.pedirTaxaJuro();
+
+        ArrayList<Object> cadastro = new ArrayList<>();
+
+        // Adicionando os dados no Array.
+        cadastro.add(valor);
+        cadastro.add(prazo);
+        cadastro.add(taxa);
+
+        return cadastro;
+    }
+
+    // Imprimir os dados básicos do financiamento.
+    public void imprimirDadosBasicos(Financiamento financiamento) {
+        System.out.println("---------------------------------------------------------");
+        System.out.println("Valor do imóvel: R$ " + financiamento.getValorImovel());
+        System.out.println("Prazo do financiamento: " + financiamento.getPrazoFinanciamento() + " anos.");
+        System.out.println("Taxa de juros mensal: " + financiamento.getTaxaJurosMensal()*100 + " %");
+        System.out.println("Taxa de juros anual: " + financiamento.getTaxaJurosAnual()*100 + " %");
+        // Os demais dados estaram nas interfaces de cada financiamento.
+    }
+
+    public abstract ArrayList<? extends Financiamento> cadastroFinanciamentoEspecifico();
+    public abstract void imprimirDadosFinanciamento(ArrayList<? extends Financiamento> financiamento);
+
 }
