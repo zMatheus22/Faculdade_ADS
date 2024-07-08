@@ -96,14 +96,4 @@ public class InterfaceApartamento extends InterfaceUsuario{
 
         return financiamentoApartamento;
     }
-
-    // Imprimir os dados do financiamento da apartamento.
-    @Override
-    public void imprimirDadosFinanciamento(ArrayList<? extends Financiamento> financiamento) {
-        for (Financiamento apartamento : financiamento) {
-            imprimirDadosBasicos(apartamento);
-            apartamento.imprimirDetalhesEspecificos();
-        }
-    }
-
 }

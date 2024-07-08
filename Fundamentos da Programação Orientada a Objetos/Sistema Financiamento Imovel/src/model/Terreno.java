@@ -1,14 +1,19 @@
 package model;
 
-public class Terreno extends Financiamento{
+import java.io.Serializable;
 
+public class Terreno extends Financiamento implements Serializable {
+
+    // Atributo
     private int tipoZona;
 
+    // Contrutor
     public Terreno(double valor_Imovel, int prazo_Financiamento, double taxa_Juro, int tipoZona){
         super(valor_Imovel, prazo_Financiamento, taxa_Juro);
         this.tipoZona = tipoZona;
     }
 
+    // Metodos
     public String getTipoZona(){
         return switch (this.tipoZona) {
             case 1 -> "Residencial";
@@ -33,8 +38,21 @@ public class Terreno extends Financiamento{
     }
 
     @Override
-    public void imprimirDetalhesEspecificos(){
-        System.out.println("O tipo do terreno é " + this.getTipoZona());
-        System.out.println("---------------------------------------------------------");
+    public String toString(){
+        String informacaoBasica = super.toString();
+        String msgTipoTerreno = "O tipo do terreno é "+ this.getTipoZona()+"\n";
+        String msgValorMensalidade = "Valor da mensalidade: R$ "+ this.calcularPagamentoMes() +"\n";
+        String msgValorFinanciamento = "Valor total do financiamento: R$ "+ this.calcularTotalFinanciamento()+"\n";
+        String msgFim = "---------------------------------------------------------";
+
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(informacaoBasica);
+        sb.append(msgTipoTerreno);
+        sb.append(msgValorMensalidade);
+        sb.append(msgValorFinanciamento);
+        sb.append(msgFim);
+
+        return sb.toString();
     }
 }

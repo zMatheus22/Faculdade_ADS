@@ -2,7 +2,6 @@ package model;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 
 /**
  * Financiamento
@@ -39,7 +38,22 @@ public abstract class Financiamento {
 
     public abstract double calcularPagamentoMes();
 
-    public abstract void imprimirDetalhesEspecificos();
+    public String toString() {
+        String msgValorImovel = "Valor do imóvel: R$ "+ this.getValorImovel() +"\n";
+        String msgPrazo = "Prazo do financiamento: "+ this.getPrazoFinanciamento()+" anos\n";
+        String msgTaxaMensal = "Taxa de juros mensal: "+ converterCasasDecimais(this.getTaxaJurosMensal()*100)+" %\n";
+        String msgTaxaAnual = "Taxa de juros anual: "+ this.getTaxaJurosAnual()*100+" %\n";
+
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(msgValorImovel);
+        sb.append(msgPrazo);
+        sb.append(msgTaxaMensal);
+        sb.append(msgTaxaAnual);
+
+        return sb.toString();
+        // Os demais dados estaram nas interfaces de cada financiamento.
+    }
 
     public abstract double calcularTotalFinanciamento();
 

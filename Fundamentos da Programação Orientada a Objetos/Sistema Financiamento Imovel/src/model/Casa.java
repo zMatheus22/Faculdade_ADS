@@ -1,8 +1,9 @@
 package model;
 
 import util.DescontoMaiorDoQueJurosException;
+import java.io.Serializable;
 
-public class Casa extends Financiamento{
+public class Casa extends Financiamento implements Serializable {
     // Atributo
     private float areaConstruida;
     private float areaTerreno;
@@ -54,9 +55,23 @@ public class Casa extends Financiamento{
     }
 
     @Override
-    public void imprimirDetalhesEspecificos(){
-        System.out.println("Área construída: " + this.getAreaConstruida());
-        System.out.println("Área do terreno: " + this.getAreaTerreno());
-        System.out.println("---------------------------------------------------------");
+    public String toString() {
+        String informacaoBasica = super.toString();
+        String msgAreaConstrida = "Área construída: "+ this.getAreaConstruida() +"\n";
+        String msgAreaTerreno = "Área do terreno: "+ this.getAreaTerreno() +"\n";
+        String msgValorMensalidade = "Valor da mensalidade: R$ "+ this.calcularPagamentoMes() +"\n";
+        String msgValorFinanciamento = "Valor total do financiamento: R$ "+ this.calcularTotalFinanciamento()+"\n";
+        String msgFim = "---------------------------------------------------------";
+
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(informacaoBasica);
+        sb.append(msgAreaConstrida);
+        sb.append(msgAreaTerreno);
+        sb.append(msgValorMensalidade);
+        sb.append(msgValorFinanciamento);
+        sb.append(msgFim);
+
+        return sb.toString();
     }
 }

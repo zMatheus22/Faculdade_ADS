@@ -2,7 +2,6 @@ package util;
 
 import model.Financiamento;
 import model.Terreno;
-
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -42,6 +41,7 @@ public class InterfaceTerreno extends InterfaceUsuario{
     }
 
     // Cadastro do fianciamento do Terreno.
+    @Override
     public  ArrayList<? extends Financiamento> cadastroFinanciamentoEspecifico(){
         InterfaceTerreno terreno = new InterfaceTerreno();
         ArrayList<Terreno> financiamentoTerreno = new ArrayList<>();
@@ -59,14 +59,5 @@ public class InterfaceTerreno extends InterfaceUsuario{
         financiamentoTerreno.add(new Terreno(valor, prazo, taxa, tipoZona));
 
         return financiamentoTerreno;
-    }
-
-    // Imprimir os dados do financiamento do Terreno.
-    @Override
-    public void imprimirDadosFinanciamento(ArrayList<? extends Financiamento> financiamento) {
-        for (Financiamento terreno : financiamento) {
-            imprimirDadosBasicos(terreno);
-            terreno.imprimirDetalhesEspecificos();
-        }
     }
 }

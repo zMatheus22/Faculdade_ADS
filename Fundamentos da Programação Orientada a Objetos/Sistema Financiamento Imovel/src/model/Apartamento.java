@@ -1,17 +1,14 @@
 package model;
 
-import java.lang.reflect.Array;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.math.BigDecimal;
+import java.io.Serializable;
 
-public class Apartamento extends Financiamento {
+public class Apartamento extends Financiamento implements Serializable {
     // Incluir um atributo para o número de vagas da garagem, e outro atributo para o número do andar.
     private int numeroAndar;
     private int numeroApartamento;
     private int quantidadeVaga;
 
+    // Construtor
     public Apartamento(double valor_Imovel, int prazo_Financiamento, double taxa_Juro, int numeroApartamento, int numeroAndar , int quantidadeVaga){
         super(valor_Imovel, prazo_Financiamento, taxa_Juro);
         this.numeroApartamento = numeroApartamento;
@@ -19,6 +16,7 @@ public class Apartamento extends Financiamento {
         this.quantidadeVaga = quantidadeVaga;
     }
 
+    // Metodos
     public int getNumeroApartamento(){
         return this.numeroApartamento;
     }
@@ -54,10 +52,25 @@ public class Apartamento extends Financiamento {
     }
 
     @Override
-    public void imprimirDetalhesEspecificos(){
-        System.out.println("Número do apartamento: " + this.getNumeroApartamento());
-        System.out.println("Número do andar: " + this.getNumeroAndar());
-        System.out.println("Quantidade de vagas na garagem: " + this.getQuantidadeVaga());
-        System.out.println("---------------------------------------------------------");
+    public String toString(){
+        String informacaoBasica = super.toString();
+        String msgNumeroApartamento = "Número do apartamento: "+this.getNumeroApartamento() +"\n";
+        String msgNumeroAndar = "Número do andar: "+ this.getNumeroAndar() +"\n";
+        String msgQtdVaga = "Quantidade de vagas na garagem: "+ this.getQuantidadeVaga() +"\n";
+        String msgValorMensalidade = "Valor da mensalidade: R$ "+ this.calcularPagamentoMes() +"\n";
+        String msgValorFinanciamento = "Valor total do financiamento: R$ "+ this.calcularTotalFinanciamento()+"\n";
+        String msgFim = "---------------------------------------------------------";
+
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(informacaoBasica);
+        sb.append(msgNumeroApartamento);
+        sb.append(msgNumeroAndar);
+        sb.append(msgQtdVaga);
+        sb.append(msgValorMensalidade);
+        sb.append(msgValorFinanciamento);
+        sb.append(msgFim);
+
+        return sb.toString();
     }
 }
