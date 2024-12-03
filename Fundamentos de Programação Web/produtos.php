@@ -3,7 +3,7 @@ session_start();
 include('conexao.php');
 
 if (!isset($_SESSION['usuario'])) {
-    header('Location: ./index.html');
+    header('Location: /index.html');
     exit();
 }
 
@@ -32,7 +32,7 @@ function deletarProduto($conexao, $id) {
 
 // Exemplo de uso das funções CRUD
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($cargo == 'ADMIN'){
+    if ($cargo == 'ADMIN') {
         if (isset($_POST['adicionar'])) {
             adicionarProduto($conexao, $_POST['nome'], $_POST['descricao'], $_POST['preco'], $_POST['categoria_id']);
         } elseif (isset($_POST['atualizar'])) {
@@ -65,45 +65,39 @@ $produtos = listarProdutos($conexao);
             <h1>Produtos</h1>
             <div class="product-list">
                 <?php while ($produto = mysqli_fetch_assoc($produtos)) : ?>
-                <div class="product-card">
-                    <h3>
-                        <?php echo $produto['nome']; ?>
-                    </h3>
-                    <p>
-                        <?php echo $produto['descricao']; ?>
-                    </p>
-                    <p>Preço: R$
-                        <?php echo number_format($produto['preco'], 2, ',', '.'); ?>
-                    </p>
-                    <?php if ($cargo == 'ADMIN'): ?>
-                    <form method="POST" action="produtos.php">
-                        <input type="hidden" name="id" value="<?php echo $produto['id']; ?>">
-                        <button type="submit" name="deletar">Deletar</button>
-                    </form>
-                    <?php endif; ?>
-                </div>
+                    <div class="product-card">
+                        <h3><?php echo $produto['nome']; ?></h3>
+                        <p><?php echo $produto['descricao']; ?></p>
+                        <p>Preço: R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></p>
+                        <?php if ($cargo == 'ADMIN') : ?>
+                            <form method="POST" action="produtos.php">
+                                <input type="hidden" name="id" value="<?php echo $produto['id']; ?>">
+                                <button type="submit" name="deletar">Deletar</button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
                 <?php endwhile; ?>
             </div>
         </section>
-        <?php if ($cargo == 'ADMIN'): ?>
-        <section class="add-product">
-            <h2>Adicionar Produto</h2>
-            <form method="POST" action="produtos.php">
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" required>
-                <label for="descricao">Descrição:</label>
-                <textarea id="descricao" name="descricao" required></textarea>
-                <label for="preco">Preço:</label>
-                <input type="number" id="preco" name="preco" step="0.01" required>
-                <label for="categoria_id">Categoria:</label>
-                <select id="categoria_id" name="categoria_id" required>
-                    <option value="1">Laptops</option>
-                    <option value="2">Tablets</option>
-                    <option value="3">Acessórios</option>
-                </select>
-                <button type="submit" name="adicionar">Adicionar</button>
-            </form>
-        </section>
+        <?php if ($cargo == 'ADMIN') : ?>
+            <section class="add-product">
+                <h2>Adicionar Produto</h2>
+                <form method="POST" action="produtos.php">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" required>
+                    <label for="descricao">Descrição:</label>
+                    <textarea id="descricao" name="descricao" required></textarea>
+                    <label for="preco">Preço:</label>
+                    <input type="number" id="preco" name="preco" step="0.01" required>
+                    <label for="categoria_id">Categoria:</label>
+                    <select id="categoria_id" name="categoria_id" required>
+                        <option value="1">Laptops</option>
+                        <option value="2">Tablets</option>
+                        <option value="3">Acessórios</option>
+                    </select>
+                    <button type="submit" name="adicionar">Adicionar</button>
+                </form>
+            </section>
         <?php endif; ?>
     </main>
     <footer></footer>
