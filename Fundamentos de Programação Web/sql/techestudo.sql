@@ -25,7 +25,7 @@ CREATE TABLE usuarios (
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
-    cargo ENUM('admin', 'usuario') DEFAULT 'usuario'
+    cargo ENUM('ADMIN', 'USER') DEFAULT 'USER'
 )charset=utf8;
 
 -- Inserção de Dados nas Tabelas
@@ -43,9 +43,9 @@ INSERT INTO produtos (nome, descricao, preco, categoria_id) VALUES
 
 -- Inserindo usuários
 INSERT INTO usuarios (nome, email, senha, cargo) VALUES 
-('João Silva', 'joao@example.com', MD5('senha123'), 'admin'),
-('Maria Oliveira', 'maria@example.com', MD5('senha456'), 'usuario'),
-('Carlos Souza', 'carlos@example.com', MD5('senha789'), 'usuario'),
-('Ana Paula', 'ana@example.com', MD5('senha101112'), 'usuario'),
-('Pedro Santos', 'pedro@example.com', MD5('senha131415'), 'usuario'),
-('Mariana Lima', 'mariana@example.com', MD5('senha161718'), 'admin');
+('João Silva', 'joao@example.com', MD5('senha123'), 'ADMIN'),
+('Maria Oliveira', 'maria@example.com', MD5('senha456'), 'USER'),
+('Carlos Souza', 'carlos@example.com', MD5('senha789'), 'USER'),
+('Ana Paula', 'ana@example.com', MD5('senha101112'), 'USER'),
+('Pedro Santos', 'pedro@example.com', MD5('senha131415'), 'USER'),
+('Mariana Lima', 'mariana@example.com', MD5('senha161718'), 'ADMIN');
