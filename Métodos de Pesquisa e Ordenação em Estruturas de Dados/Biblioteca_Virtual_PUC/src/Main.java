@@ -1,5 +1,7 @@
+import model.FilaEspera;
 import model.LinkedListBliblioteca;
 import model.Livro;
+import model.Usuario;
 
 /**
  * Métodos de Pesquisa e Ordenação em Estruturas de Dados |
@@ -14,6 +16,8 @@ import model.Livro;
 public class Main {
   public static void main(String[] args) {
     LinkedListBliblioteca biblioteca = new LinkedListBliblioteca();
+    FilaEspera espera = new FilaEspera();
+
     String autor = "Robert C. Martin";
     String livroRemover = "Design Patterns";
     String dadoLivro = "You Don’t Know JS";
@@ -30,21 +34,43 @@ public class Main {
     biblioteca.addLivro(new Livro("Eloquent JavaScript", "Marijn Haverbeke", 2011));
     System.out.println("\n");
 
-    System.out.println("Lista de livros na biblioteca:");
-    biblioteca.getLivros();
+    //System.out.println("Lista de livros na biblioteca:");
+    biblioteca.getDadoLivros();
     System.out.println("\n");
 
-    System.out.println("Removido um livro da biblioteca: " + livroRemover);
-    biblioteca.removeLivro(livroRemover);
-    System.out.println("\n");
+    //System.out.println("Removido um livro da biblioteca: " + livroRemover);
+    //biblioteca.removeLivro(livroRemover);
+    //System.out.println("\n");
 
-    System.out.println("Dados de um livro: ");
-    biblioteca.getLivroPorTitulo(dadoLivro);
-    System.out.println("\n");
+    //System.out.println("Dados de um livro: ");
+    //biblioteca.getLivroPorTitulo(dadoLivro);
+    //System.out.println("\n");
 
-    System.out.println("Lista de livro(s) do autor: " + autor);
-    biblioteca.getLivroPorAutor(autor);
-    System.out.println("\n");
+    //System.out.println("Lista de livro(s) do autor: " + autor);
+    //biblioteca.getLivroPorAutor(autor);
+    //System.out.println("\n");
+
+    Usuario user;
+    user = new Usuario("Matheus");
+    espera.entrarNaFila(user);
+    user = new Usuario("Joao");
+    espera.entrarNaFila(user);
+    user = new Usuario("Joao2");
+    espera.entrarNaFila(user);
+    user = new Usuario("Joao3");
+    espera.entrarNaFila(user);
+    user = new Usuario("Joao4");
+    espera.entrarNaFila(user);
+    user = new Usuario("Joao5");
+    espera.entrarNaFila(user);
+
+    int status = 0;
+    while (!espera.estaVazia()){
+      if (status != 0){
+        break;
+      }
+      status = espera.atentimento(livroRemover, biblioteca);
+    }
 
   }
 }

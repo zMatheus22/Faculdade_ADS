@@ -7,30 +7,38 @@ public class LinkedListBliblioteca {
   private final LinkedList <Livro> livros;
 
   public LinkedListBliblioteca(){
-    livros = new LinkedList<>();
+    this.livros = new LinkedList<>();
   }
 
   public void addLivro(Livro livro){
-    livros.add(livro);
+    this.livros.add(livro);
   }
 
   public void removeLivro(String titulo) {
-    for(Livro livro : livros){
+    for(Livro livro : this.livros){
       if (Objects.equals(livro.getTitulo(), titulo)){
-        livros.remove(livro);
+        this.livros.remove(livro);
         return;
       }
     }
   }
 
-  public void getLivros(){
-    for(Livro livro : livros){
-      System.out.println(livro.getLivro());
+  public LinkedList<Livro> getLivros(){
+    return livros;
+  }
+
+  public Livro getLivro(Livro livro){
+    return livro;
+  }
+
+  public void getDadoLivros(){
+    for (Livro livro : livros){
+      System.out.println("Livro: " + livro.getTitulo() +", Autor: " + livro.getAutor() + ", Ano: " + livro.getAno());
     }
   }
 
   public void getLivroPorTitulo(String titulo){
-    for(Livro livro : livros){
+    for(Livro livro : this.livros){
       if (Objects.equals(livro.getTitulo(), titulo)){
         System.out.println(livro.getLivro());
         return;
@@ -42,11 +50,11 @@ public class LinkedListBliblioteca {
   public void getLivroPorAutor(String autor){
     boolean achou = false;
 
-    for(Livro livro : livros){
+    for(Livro livro : this.livros){
       String autorLivro = livro.getAutor().trim();
       if (autorLivro.equalsIgnoreCase(autor.trim())){
         System.out.println(livro.getTitulo() + ", "+ livro.getAno());
-        achou = true;
+        return;
       }
     }
 
