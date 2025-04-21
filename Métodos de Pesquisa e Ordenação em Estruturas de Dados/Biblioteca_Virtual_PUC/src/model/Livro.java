@@ -4,11 +4,13 @@ public class Livro {
   private final String titulo;
   private final String autor;
   private final int ano;
+  private final String categoria;
 
-  public Livro(String titulo, String autor, int ano){
+  public Livro(String titulo, String autor, int ano, String categoria){
     this.titulo = titulo;
     this.autor = autor;
     this.ano = ano;
+    this.categoria = categoria;
   }
 
   public String getTitulo(){
@@ -23,7 +25,7 @@ public class Livro {
     return this.ano;
   }
 
-  public String getDados() {
-    return "Título: " + getTitulo() + ", Autor: " + getAutor() + ", Ano: " + getAno();
+  public String getCategoria(){
+    return this.categoria;
   }
 }

@@ -2,16 +2,15 @@ package model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.LinkedList;
 import java.util.Stack;
 
 public class HistoricoNavegacao {
   private Stack<String> historico = new Stack<>();
 
-  public void adicionarHistorico(String titulo, Usuario user){
+  public void adicionarHistorico(String valor, String opcao, Usuario user){
     LocalDate data = LocalDate.now();
     LocalTime time = LocalTime.now();
-    DadoHistorico  dado = new DadoHistorico(titulo, user, data, time);
+    DadoHistorico  dado = new DadoHistorico(valor, opcao, user, data, time);
     this.historico.addLast(String.valueOf(dado));
   }
 
@@ -25,10 +24,13 @@ public class HistoricoNavegacao {
   }
 
   public void exibirHistorico() {
-    for (int i = historico.size() - 1; i >= 0; i--) {
-      System.out.println(historico.get(i));
+    Stack<String> copia = (Stack<String>) historico.clone();
+    System.out.println("Histórico de navegação:");
+    while (!copia.isEmpty()) {
+      System.out.println("- " + copia.pop());
     }
   }
+
 
   public boolean estaVazio(){
     return this.historico.isEmpty();
