@@ -24,7 +24,7 @@ public class FilaEspera {
     }
   }
 
-  public int atentimento(String titulo, LinkedListBliblioteca livrosBiblioteca){
+  public int atentimento(String titulo, Bliblioteca livrosBiblioteca){
     boolean livroEncontrado = false;
     Usuario user = fila.element();
     for (Livro livro : livrosBiblioteca.getLivros()){

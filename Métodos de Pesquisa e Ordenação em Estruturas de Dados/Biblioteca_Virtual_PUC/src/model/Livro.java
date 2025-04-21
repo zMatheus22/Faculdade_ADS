@@ -23,7 +23,7 @@ public class Livro {
     return this.ano;
   }
 
-  public String getLivro(){
+  public String getDados() {
     return "Título: " + getTitulo() + ", Autor: " + getAutor() + ", Ano: " + getAno();
   }
 }

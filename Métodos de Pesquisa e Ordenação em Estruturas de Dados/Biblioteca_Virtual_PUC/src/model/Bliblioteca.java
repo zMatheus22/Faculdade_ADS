@@ -3,10 +3,10 @@ package model;
 import java.util.LinkedList;
 import java.util.Objects;
 
-public class LinkedListBliblioteca {
+public class Bliblioteca {
   private final LinkedList <Livro> livros;
 
-  public LinkedListBliblioteca(){
+  public Bliblioteca(){
     this.livros = new LinkedList<>();
   }
 
@@ -40,7 +40,7 @@ public class LinkedListBliblioteca {
   public void getLivroPorTitulo(String titulo){
     for(Livro livro : this.livros){
       if (Objects.equals(livro.getTitulo(), titulo)){
-        System.out.println(livro.getLivro());
+        System.out.println(livro.getDados());
         return;
       }
     }
