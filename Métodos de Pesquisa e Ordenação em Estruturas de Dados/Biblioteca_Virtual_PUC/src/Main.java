@@ -2,7 +2,7 @@
  * Métodos de Pesquisa e Ordenação em Estruturas de Dados |
  * Sistema de gerenciamento para uma biblioteca virtual | PUC-PR
  *
- * @ATIVIDADE SOMATIVA - Semana 4
+ * @ATIVIDADE_Formativa_-_Semana_5
 
  * @Curso: Análise e Desenvolvimento de Sistemas
  * @Autor: Matheus Vinicyus Strada
@@ -18,6 +18,7 @@ public class Main {
     Biblioteca biblioteca = new Biblioteca();
     FilaEspera espera = new FilaEspera();
     HistoricoNavegacao historico = new HistoricoNavegacao();
+    ArvoreLivro arvoreLivros = new ArvoreLivro();
 
     Scanner scanner = new Scanner(System.in);
     int opcao = -1;
@@ -41,6 +42,10 @@ public class Main {
     // Adicionando os livros na biblioteca (grafo).
     for (Livro livro : livros) {
       biblioteca.addLivro(livro);
+    }
+
+    for (Livro livro : livros) {
+      arvoreLivros.inserirLivro(livro);
     }
 
     // Criando os relacionamentos dos livros com base na Categoria ou Autor!
@@ -68,6 +73,7 @@ public class Main {
       System.out.println("3. Buscar livro");
       System.out.println("4. Emprestar um livro");
       System.out.println("5. Exibir histórico de navegação");
+      System.out.println("6. Exibir árvore de livro");
       System.out.println("0. Sair");
       System.out.print("Escolha uma opção: ");
       opcao = scanner.nextInt();
@@ -93,6 +99,7 @@ public class Main {
             System.out.println("1. Busca por título do livro");
             System.out.println("2. Buscar por autor");
             System.out.println("3. Buscar relacimento de livro");
+            System.out.println("4. Procurar livro na árvore");
             System.out.println("0. Voltarn ao menu");
             System.out.print("Escolha uma opção: ");
             opcaoLivro = scanner.nextInt();
@@ -126,6 +133,17 @@ public class Main {
                   System.out.println("Livro não encontrado.");
                 }
                 break;
+              case 4:
+                System.out.print("Digite o título do livro a buscar na árvore: ");
+                String busca = scanner.nextLine();
+                historico.adicionarHistorico(busca, "Pesquisa na árvore de livros", usuario);
+                Livro encontrado = arvoreLivros.buscar(busca);
+                if (encontrado != null) {
+                  System.out.println("Livro encontrado: " + encontrado.getDado(encontrado));
+                } else {
+                  System.out.println("Livro não encontrado na árvore.");
+                }
+                break;
               case 0:
                 System.out.println("Voltando para o menu!");
                 break;
@@ -148,6 +166,11 @@ public class Main {
 
         case 5:
           historico.exibirHistorico();
+          break;
+
+        case 6:
+          System.out.println("\n=== LIVROS EM ORDEM ===");
+          arvoreLivros.mostrar();
           break;
 
         case 0:

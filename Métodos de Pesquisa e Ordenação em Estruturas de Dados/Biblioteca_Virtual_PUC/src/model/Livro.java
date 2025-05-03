@@ -28,4 +28,11 @@ public class Livro {
   public String getCategoria(){
     return this.categoria;
   }
+
+  public String getDado(Livro livro){
+    return "Título: " + livro.getTitulo() +
+        ", Ano: " + livro.getAno() +
+        ", Autor: " + livro.getAutor()+
+        ", Categoria: " + livro.getCategoria();
+  }
 }
