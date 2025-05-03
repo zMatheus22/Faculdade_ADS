@@ -2,7 +2,7 @@
  * Métodos de Pesquisa e Ordenação em Estruturas de Dados |
  * Sistema de gerenciamento para uma biblioteca virtual | PUC-PR
  *
- * @ATIVIDADE_Formativa_-_Semana_5
+ * @ATIVIDADE_Formativa_-_Semana_6
 
  * @Curso: Análise e Desenvolvimento de Sistemas
  * @Autor: Matheus Vinicyus Strada
@@ -19,6 +19,8 @@ public class Main {
     FilaEspera espera = new FilaEspera();
     HistoricoNavegacao historico = new HistoricoNavegacao();
     ArvoreLivro arvoreLivros = new ArvoreLivro();
+    BubbleSort bs = new BubbleSort();
+    MergeSort ms = new MergeSort();
 
     Scanner scanner = new Scanner(System.in);
     int opcao = -1;
@@ -43,7 +45,7 @@ public class Main {
     for (Livro livro : livros) {
       biblioteca.addLivro(livro);
     }
-
+    // Adicionando os livros na biblioteca (Árvore).
     for (Livro livro : livros) {
       arvoreLivros.inserirLivro(livro);
     }
@@ -74,6 +76,7 @@ public class Main {
       System.out.println("4. Emprestar um livro");
       System.out.println("5. Exibir histórico de navegação");
       System.out.println("6. Exibir árvore de livro");
+      System.out.println("7. Comparação de BubleSort vs MergeSort");
       System.out.println("0. Sair");
       System.out.print("Escolha uma opção: ");
       opcao = scanner.nextInt();
@@ -172,6 +175,19 @@ public class Main {
           System.out.println("\n=== LIVROS EM ORDEM ===");
           arvoreLivros.mostrar();
           break;
+
+        case 7:
+          System.out.println("\n=== Comparação de BubleSort vs MergeSort ====");
+          int quantidade = 10000;
+          String[] nomesAleatorio = GeradorDeLivros.gerarNomes(quantidade);
+
+          bs.ordenar(nomesAleatorio.clone());
+          int quantidadeBSOrdenacao = bs.getComparacoes();
+          System.out.println("Bubble Sort - Comparações: " + quantidadeBSOrdenacao);
+
+          ms.ordenar(nomesAleatorio.clone());
+          int quantidadeMSOrdenacao = ms.getComparacoes();
+          System.out.println("Merge Sort - Comparações: " + quantidadeMSOrdenacao);
 
         case 0:
           System.out.println("Saindo da biblioteca. Até mais!");
