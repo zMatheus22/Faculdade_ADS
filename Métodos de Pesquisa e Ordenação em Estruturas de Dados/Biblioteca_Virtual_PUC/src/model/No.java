@@ -1,13 +1,17 @@
 package model;
 
 public class No {
-  Livro livro;
-  No esquerda;
-  No direita;
+  private Livro livro;
+  public No esquerda;
+  public No direita;
 
   public No(Livro livro){
     this.livro = livro;
-    esquerda = null;
-    direita = null;
+    this.esquerda = null;
+    this.direita = null;
+  }
+
+  public Livro getLivro(){
+    return livro;
   }
 }

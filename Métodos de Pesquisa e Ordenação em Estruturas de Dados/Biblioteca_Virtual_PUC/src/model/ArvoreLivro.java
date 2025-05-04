@@ -16,7 +16,7 @@ public class ArvoreLivro {
       return new No(livro);
     }
 
-    if (livro.getTitulo().compareToIgnoreCase(atual.livro.getTitulo()) < 0){
+    if (livro.getTitulo().compareToIgnoreCase(atual.getLivro().getTitulo()) < 0){
       atual.esquerda = inserirRecursivo(atual.esquerda, livro);
     }
     else {
@@ -36,10 +36,10 @@ public class ArvoreLivro {
     }
 
     // verifica se a o título ou a categoria;
-    int camparaTitulo = valor.compareToIgnoreCase(atual.livro.getTitulo());
+    int camparaTitulo = valor.compareToIgnoreCase(atual.getLivro().getTitulo());
 
     if (camparaTitulo == 0){
-      return atual.livro;
+      return atual.getLivro();
     } else if (camparaTitulo < 0) {
       return buscarRecursivo(atual.esquerda, valor);
     }
@@ -53,11 +53,13 @@ public class ArvoreLivro {
   }
 
   private No removerRecursivo(No atual, String valor){
+    Livro livro = atual.getLivro();
+
     if (atual == null){
       return null;
     }
 
-    int camparaTitulo = valor.compareToIgnoreCase(atual.livro.getTitulo());
+    int camparaTitulo = valor.compareToIgnoreCase(atual.getLivro().getTitulo());
 
     if (camparaTitulo == 0){
       if (atual.esquerda == null && atual.direita == null){
@@ -73,7 +75,7 @@ public class ArvoreLivro {
       }
 
       Livro maiorLivro = buscarMaiorLivro(atual.esquerda);
-      atual.livro = maiorLivro;
+      livro = maiorLivro;
       atual.esquerda = removerRecursivo(atual.esquerda, maiorLivro.getTitulo());
 
       return atual;
@@ -91,7 +93,7 @@ public class ArvoreLivro {
     while (raiz.direita != null) {
       raiz = raiz.direita;
     }
-    return raiz.livro;
+    return raiz.getLivro();
   }
 
   // Mostrar árvore
@@ -102,9 +104,12 @@ public class ArvoreLivro {
   private void mostrarRecursivo(No raiz) {
     if (raiz != null) {
       mostrarRecursivo(raiz.esquerda);
-      System.out.println(raiz.livro.getDado(raiz.livro));
+      System.out.println(raiz.getLivro().getDado(raiz.getLivro()));
       mostrarRecursivo(raiz.direita);
     }
   }
 
+  public No getNo(){
+    return this.raiz;
+  }
 }

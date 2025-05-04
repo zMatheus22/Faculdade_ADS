@@ -2,7 +2,7 @@
  * Métodos de Pesquisa e Ordenação em Estruturas de Dados |
  * Sistema de gerenciamento para uma biblioteca virtual | PUC-PR
  *
- * @ATIVIDADE_Formativa_-_Semana_6
+ * @ATIVIDADE_Formativa_-_Semana_7
 
  * @Curso: Análise e Desenvolvimento de Sistemas
  * @Autor: Matheus Vinicyus Strada
@@ -26,6 +26,7 @@ public class Main {
     int opcao = -1;
     int opcaoLivro;
     String valor;
+    String titulo;
 
     // Criando os livros
     Livro l1 = new Livro("Clean Code", "Robert C. Martin", 2008, "Engenharia de Software");
@@ -103,6 +104,8 @@ public class Main {
             System.out.println("2. Buscar por autor");
             System.out.println("3. Buscar relacimento de livro");
             System.out.println("4. Procurar livro na árvore");
+            System.out.println("5. Busca BFS");
+            System.out.println("6. Busca DFS");
             System.out.println("0. Voltarn ao menu");
             System.out.print("Escolha uma opção: ");
             opcaoLivro = scanner.nextInt();
@@ -147,6 +150,22 @@ public class Main {
                   System.out.println("Livro não encontrado na árvore.");
                 }
                 break;
+              case 5:
+                System.out.print("Digite o nome do livro a ser buscado: ");
+                titulo = scanner.nextLine();
+                System.out.println("\n--- Busca em Largura (BFS) ---");
+                if (!BFS.buscaBFS(arvoreLivros.getNo(), titulo)) {
+                  System.out.println("Livro não encontrado com BFS.");
+                }
+                break;
+              case 6:
+                System.out.print("Digite o nome do livro a ser buscado: ");
+                titulo = scanner.nextLine();
+                System.out.println("\n--- Busca em Largura (DFS) ---");
+                if (!DFS.buscaDFS(arvoreLivros.getNo(), titulo)) {
+                  System.out.println("Livro não encontrado com DFS.");
+                }
+                break;
               case 0:
                 System.out.println("Voltando para o menu!");
                 break;
@@ -158,7 +177,7 @@ public class Main {
 
         case 4:
           System.out.print("Digite o título do livro a ser emprestado: ");
-          String titulo = scanner.nextLine();
+          titulo = scanner.nextLine();
           espera.entrarNaFila(usuario);
           espera.atentimento(titulo, biblioteca);
           historico.adicionarHistorico(titulo, "Emprestimo de livro", usuario);
