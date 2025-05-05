@@ -1,7 +1,7 @@
 package model;
 
 public class No {
-  private Livro livro;
+  private final Livro livro;
   public No esquerda;
   public No direita;
 

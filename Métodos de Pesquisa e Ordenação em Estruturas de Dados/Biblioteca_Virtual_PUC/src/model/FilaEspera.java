@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Queue;
 
 public class FilaEspera {
-  private Queue<Usuario> fila;
+  private final Queue<Usuario> fila;
 
   public FilaEspera(){
     this.fila = new LinkedList<>();
@@ -24,11 +24,11 @@ public class FilaEspera {
     }
   }
 
-  public int atentimento(String titulo, Biblioteca livrosBiblioteca){
+  public void atendimento(String titulo, Biblioteca livrosBiblioteca){
     boolean livroEncontrado = false;
     Usuario user = fila.element();
-    for (Livro livro : livrosBiblioteca.getLivros()){
-      if (Objects.equals(livro.getTitulo(), titulo)) {
+    for (Livro livro : livrosBiblioteca.getLivro()){
+      if (Objects.equals(livro.titulo(), titulo)) {
         livroEncontrado = true;
         break;
       }
@@ -36,11 +36,9 @@ public class FilaEspera {
     desnfilerar();
     if (!livroEncontrado){
       System.out.println("Livro informado não catalogado.");
-      return -1;
     }
     else {
       System.out.println("O Usuário: " + user.getNome() + ", emprestou o livro: " + titulo);
-      return 0;
     }
   }
 

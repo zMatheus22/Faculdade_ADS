@@ -11,40 +11,39 @@ public class ArvoreLivro {
     raiz = inserirRecursivo(raiz, livro);
   }
 
-  private No inserirRecursivo(No atual, Livro livro){
-    if (atual == null){
+  private No inserirRecursivo(No node, Livro livro){
+    if (node == null){
       return new No(livro);
     }
 
-    if (livro.getTitulo().compareToIgnoreCase(atual.getLivro().getTitulo()) < 0){
-      atual.esquerda = inserirRecursivo(atual.esquerda, livro);
+    if (livro.titulo().compareToIgnoreCase(node.getLivro().titulo()) < 0){
+      node.esquerda = inserirRecursivo(node.esquerda, livro);
     }
     else {
-      atual.direita = inserirRecursivo(atual.direita, livro);
+      node.direita = inserirRecursivo(node.direita, livro);
     }
 
-    return atual;
+    return node;
   }
 
   public Livro buscar(String valor){
     return buscarRecursivo(raiz, valor);
   }
 
-  private Livro buscarRecursivo(No atual, String valor){
-    if (atual == null){
+  private Livro buscarRecursivo(No node, String valor){
+    if (node == null){
       return null;
     }
 
-    // verifica se a o título ou a categoria;
-    int camparaTitulo = valor.compareToIgnoreCase(atual.getLivro().getTitulo());
+    int camparaTitulo = valor.compareToIgnoreCase(node.getLivro().titulo());
 
     if (camparaTitulo == 0){
-      return atual.getLivro();
+      return node.getLivro();
     } else if (camparaTitulo < 0) {
-      return buscarRecursivo(atual.esquerda, valor);
+      return buscarRecursivo(node.esquerda, valor);
     }
     else {
-      return buscarRecursivo(atual.direita, valor);
+      return buscarRecursivo(node.direita, valor);
     }
   }
 
@@ -52,48 +51,48 @@ public class ArvoreLivro {
     raiz = removerRecursivo(raiz, valor);
   }
 
-  private No removerRecursivo(No atual, String valor){
-    Livro livro = atual.getLivro();
+  private No removerRecursivo(No node, String valor){
+    Livro livro = node.getLivro();
 
-    if (atual == null){
+    if (node == null){
       return null;
     }
 
-    int camparaTitulo = valor.compareToIgnoreCase(atual.getLivro().getTitulo());
+    int camparaTitulo = valor.compareToIgnoreCase(node.getLivro().titulo());
 
     if (camparaTitulo == 0){
-      if (atual.esquerda == null && atual.direita == null){
+      if (node.esquerda == null && node.direita == null){
         return null;
       }
 
-      if (atual.esquerda == null){
-        return atual.direita;
+      if (node.esquerda == null){
+        return node.direita;
       }
 
-      if (atual.direita == null){
-        return atual.esquerda;
+      if (node.direita == null){
+        return node.esquerda;
       }
 
-      Livro maiorLivro = buscarMaiorLivro(atual.esquerda);
+      Livro maiorLivro = buscarMaiorLivro(node.esquerda);
       livro = maiorLivro;
-      atual.esquerda = removerRecursivo(atual.esquerda, maiorLivro.getTitulo());
+      node.esquerda = removerRecursivo(node.esquerda, maiorLivro.titulo());
 
-      return atual;
+      return node;
     }
     else if (camparaTitulo < 0){
-      removerRecursivo(atual.esquerda, valor);
+      removerRecursivo(node.esquerda, valor);
     }else {
-      removerRecursivo(atual.direita, valor);
+      removerRecursivo(node.direita, valor);
     }
 
-    return atual;
+    return node;
   }
 
-  private Livro buscarMaiorLivro(No raiz){
-    while (raiz.direita != null) {
-      raiz = raiz.direita;
+  private Livro buscarMaiorLivro(No node){
+    while (node.direita != null) {
+      node = node.direita;
     }
-    return raiz.getLivro();
+    return node.getLivro();
   }
 
   // Mostrar árvore
@@ -101,11 +100,11 @@ public class ArvoreLivro {
     mostrarRecursivo(raiz);
   }
 
-  private void mostrarRecursivo(No raiz) {
-    if (raiz != null) {
-      mostrarRecursivo(raiz.esquerda);
-      System.out.println(raiz.getLivro().getDado(raiz.getLivro()));
-      mostrarRecursivo(raiz.direita);
+  private void mostrarRecursivo(No node) {
+    if (node != null) {
+      mostrarRecursivo(node.esquerda);
+      System.out.println(node.getLivro().getDado(node.getLivro()));
+      mostrarRecursivo(node.direita);
     }
   }
 

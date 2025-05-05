@@ -1,7 +1,7 @@
 package model;
 
 public class Usuario {
-  private String nome;
+  private final String nome;
 
   public Usuario(String nome){
     this.nome = nome;

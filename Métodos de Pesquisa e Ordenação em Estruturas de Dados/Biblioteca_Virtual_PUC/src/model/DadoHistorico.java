@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class DadoHistorico {
-  private String valor;
-  private String opcao;
-  private Usuario usuario;
-  private LocalDate data;
-  private LocalTime time;
+  private final String valor;
+  private final String opcao;
+  private final Usuario usuario;
+  private final LocalDate data;
+  private final LocalTime time;
 
   public DadoHistorico(String valor, String opcao, Usuario usuario, LocalDate data, LocalTime time) {
     this.valor = valor;

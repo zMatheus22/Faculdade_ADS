@@ -3,7 +3,7 @@ package model;
 import java.util.*;
 
 public class Biblioteca {
-  private final Map<Livro, Set<Livro>> livros;
+  private final HashMap<Livro, Set<Livro>> livros;
 
   public Biblioteca(){
     this.livros = new HashMap<>();
@@ -15,6 +15,7 @@ public class Biblioteca {
 
   public void addRecomendacao(Livro base, Livro recomendado) {
     livros.putIfAbsent(base, new HashSet<>());
+    livros.putIfAbsent(recomendado, new HashSet<>());
     livros.get(base).add(recomendado);
   }
 
@@ -22,35 +23,67 @@ public class Biblioteca {
     return livros.getOrDefault(livro, new HashSet<>());
   }
 
+  public static void recomendarLivro(Livro origem, HashMap<Livro, Set<Livro>> grafo) {
+    Map<Livro, Integer> distancias = djikstraSimples(grafo, origem);
+
+    System.out.println("Recomendações a partir do livro: " + origem.titulo());
+    distancias.entrySet().stream()
+      .sorted(Map.Entry.comparingByValue())
+      .forEach(entry -> {
+        System.out.println("Livro: " + entry.getKey().titulo() + " | Distância: " + entry.getValue());
+      });
+  }
+
+  public static Map<Livro, Integer> djikstraSimples(HashMap<Livro, Set<Livro>> grafo, Livro origem) {
+    Map<Livro, Integer> distancias = new HashMap<>();
+    Queue<Livro> fila = new LinkedList<>();
+
+    distancias.put(origem, 0); // como não temos pesos entre os nós, o peso padrão é 0
+    fila.add(origem);
+
+    while (!fila.isEmpty()) {
+      Livro atual = fila.poll();
+      int distanciaAtual = distancias.get(atual);
+
+      for (Livro vizinho : grafo.getOrDefault(atual, new HashSet<>())) {
+        if (!distancias.containsKey(vizinho)) {
+          distancias.put(vizinho, distanciaAtual + 1);
+          fila.add(vizinho);
+        }
+      }
+    }
+    return distancias;
+  }
+
   public void mostrarGrafo(){
     for (Livro livro: livros.keySet()){
-      System.out.println("Livro: " + livro.getTitulo());
+      System.out.println("Livro: " + livro.titulo());
       for (Livro recomendacao : livros.get(livro)){
-        System.out.println(" ↳ Relacionado: " + recomendacao.getTitulo());
+        System.out.println(" ↳ Relacionado: " + recomendacao.titulo());
       }
     }
   }
 
-  public Set<Livro> getLivros(){
+  public Set<Livro> getLivro(){
     return livros.keySet();
   }
 
   public void getDadoLivro(){
     for (Livro livro : livros.keySet()){
-      System.out.println("Livro: " + livro.getTitulo() +
-                         ", Autor: " + livro.getAutor() +
-                         ", Ano: " + livro.getAno() +
-                         ", Categoria: " + livro.getCategoria());
+      System.out.println("Livro: " + livro.titulo() +
+                         ", Autor: " + livro.autor() +
+                         ", Ano: " + livro.ano() +
+                         ", Categoria: " + livro.categoria());
     }
   }
 
   public void getDadoLivro(String titulo){
     for(Livro livro : livros.keySet()){
-      if (livro.getTitulo().equalsIgnoreCase(titulo)) {
-        System.out.println("Livro: " + livro.getTitulo() +
-            ", Autor: " + livro.getAutor() +
-            ", Ano: " + livro.getAno() +
-            ", Categoria: " + livro.getCategoria());
+      if (livro.titulo().equalsIgnoreCase(titulo)) {
+        System.out.println("Livro: " + livro.titulo() +
+            ", Autor: " + livro.autor() +
+            ", Ano: " + livro.ano() +
+            ", Categoria: " + livro.categoria());
         return;
       }
     }
@@ -58,23 +91,26 @@ public class Biblioteca {
 
   public Livro getLivroPorTitulo(String titulo){
     for(Livro livro : livros.keySet()){
-      if (livro.getTitulo().equalsIgnoreCase(titulo)){
+      if (livro.titulo().equalsIgnoreCase(titulo)){
         return livro;
       }
     }
     return null;
   }
 
+  public HashMap<Livro, Set<Livro>> getLivros() {
+    return livros;
+  }
 
   public void getLivroPorAutor(String autor){
     boolean achou = false;
 
     for(Livro livro : livros.keySet()){
-      String autorLivro = livro.getAutor().trim();
+      String autorLivro = livro.autor().trim();
       if (autorLivro.equalsIgnoreCase(autor.trim())){
-        System.out.println("Livro: " + livro.getTitulo() +
-                           ", Ano: "+ livro.getAno() +
-                           ", Categoria: " + livro.getCategoria());
+        System.out.println("Livro: " + livro.titulo() +
+                           ", Ano: "+ livro.ano() +
+                           ", Categoria: " + livro.categoria());
         return;
       }
     }

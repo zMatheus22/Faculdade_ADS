@@ -2,13 +2,13 @@ package model;
 
 public class DFS {
   public static boolean buscaDFS(No node, String titulo) {
-    Livro livro = node.getLivro();
-
     if (node == null) {
       return false;
     }
 
-    if (livro.getTitulo().equalsIgnoreCase(titulo)){
+    Livro livro = node.getLivro();
+
+    if (livro.titulo().equalsIgnoreCase(titulo)) {
       System.out.println("Livro encontrado com DFS!");
       System.out.println("Dados do livro:");
       System.out.println(livro.getDado(livro));
